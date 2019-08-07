@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "mruby.h"
 #include "mruby/compile.h"
+#include "raylib.h"
 
 int main()
 {
