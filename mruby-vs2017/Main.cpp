@@ -6,7 +6,10 @@ int main()
 {
 	mrb_state* mrb = mrb_open();
 
-	mrb_value ret = mrb_load_string(mrb, "p 1");
+	FILE* fp;
+	fopen_s(&fp, "main.rb", "r");
+	mrb_value ret = mrb_load_file(mrb, fp);
+	fclose(fp);
 
 	mrb_close(mrb);
 }
