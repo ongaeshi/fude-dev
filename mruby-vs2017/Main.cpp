@@ -1,13 +1,15 @@
 ﻿#include "pch.h"
 #include "mruby.h"
 #include "mruby/compile.h"
+#include "mruby/class.h"
+#include "mruby/data.h"
+#include "mruby/value.h"
 #include "raylib.h"
+#include <string.h>
 
-void mrb_raylib_module_init(mrb_state *mrb)
-{
-	struct RClass *mod = mrb_define_module(mrb, "Raylib");
-	struct RClass *errorClass = mrb_define_class_under(mrb, mod, "RaylibError", mrb->eStandardError_class);
-}
+extern void mrb_raylib_module_init(mrb_state *mrb);
+extern mrb_value mrb_raylib_vector3_initialize(mrb_state *mrb, mrb_value self);
+extern mrb_value mrb_raylib_camera_initialize(mrb_state *mrb, mrb_value self);
 
 int main()
 {
@@ -21,52 +23,51 @@ int main()
 	fclose(fp);
 
 	mrb_close(mrb);
+}
 
-	const int screenWidth = 800;
-	const int screenHeight = 450;
+// struct Vector3
+// struct Camera
+void mrb_raylib_module_init(mrb_state *mrb)
+{
+	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
+	struct RClass *raylib_error_cls = mrb_define_class_under(mrb, mod_raylib, "RaylibError", mrb->eStandardError_class);
 
-	int x = 0;
-
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
-	SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-	//--------------------------------------------------------------------------------------
-
-	// Main game loop
-	while (!WindowShouldClose())    // Detect window close button or ESC key
 	{
-		// Update
-		//----------------------------------------------------------------------------------
-		// TODO: Update your variables here
-		//----------------------------------------------------------------------------------
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector3", mrb->object_class);
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vector3_initialize, MRB_ARGS_NONE());
+	}
 
-		// Draw
-		//----------------------------------------------------------------------------------
-		BeginDrawing();
-
-		// slower patch: https://github.com/raysan5/raylib/issues/922
-		Vector3 v = { 0, 0, 0 };
-		DrawSphere(v, 0, WHITE);
-
-		ClearBackground(RAYWHITE);
-
-		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-		DrawLine(x, 100, 500, 200, LIGHTGRAY);
-		DrawLine(GetMouseX(), 200, 500, 200, LIGHTGRAY);
-
-		//if (mrb->exc) {
-		//	mrb_value msg = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0);
-		//	const char* cstr = mrb_string_value_ptr(mrb, msg);
-		//	DrawText(cstr, 190, 200, 20, BLACK);
-		//} else {
-		//	mrb_value msg = mrb_funcall(mrb, ret, "inspect", 0);
-		//	const char* cstr = mrb_string_value_ptr(mrb, msg);
-		//	DrawText(cstr, 190, 200, 20, BLACK);
-		//}
-
-		EndDrawing();
-
-		x += 1;
-		//----------------------------------------------------------------------------------
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Camera", mrb->object_class);
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_camera_initialize, MRB_ARGS_NONE());
 	}
 }
+
+const static struct mrb_data_type mrb_raylib_vector3_type = { "Vector3", mrb_free };
+
+mrb_value mrb_raylib_vector3_initialize(mrb_state *mrb, mrb_value self)
+{
+	Vector3 *p;
+
+	p = (Vector3*)mrb_malloc(mrb, sizeof(Vector3));
+	memset(p, 0, sizeof(Vector3));
+	DATA_TYPE(self) = &mrb_raylib_vector3_type;
+	DATA_PTR(self) = p;
+	return self;
+}
+
+const static struct mrb_data_type mrb_raylib_camera_type = { "Camera", mrb_free };
+
+mrb_value mrb_raylib_camera_initialize(mrb_state *mrb, mrb_value self)
+{
+	Camera *p;
+
+	p = (Camera*)mrb_malloc(mrb, sizeof(Camera));
+	memset(p, 0, sizeof(Camera));
+	DATA_TYPE(self) = &mrb_raylib_camera_type;
+	DATA_PTR(self) = p;
+	return self;
+}
+
