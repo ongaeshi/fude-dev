@@ -6,6 +6,19 @@
 #include "raylib.h"
 #include <string.h>
 
+const static struct mrb_data_type mrb_raylib_vector2_type = { "Vector2", mrb_free };
+
+mrb_value mrb_raylib_vector2_initialize(mrb_state *mrb, mrb_value self)
+{
+	Vector2 *p;
+
+	p = (Vector2*)mrb_malloc(mrb, sizeof(Vector2));
+	memset(p, 0, sizeof(Vector2));
+	DATA_TYPE(self) = &mrb_raylib_vector2_type;
+	DATA_PTR(self) = p;
+	return self;
+}
+
 const static struct mrb_data_type mrb_raylib_vector3_type = { "Vector3", mrb_free };
 
 mrb_value mrb_raylib_vector3_initialize(mrb_state *mrb, mrb_value self)
@@ -36,6 +49,12 @@ void mrb_raylib_module_init(mrb_state *mrb)
 {
 	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
 	struct RClass *raylib_error_cls = mrb_define_class_under(mrb, mod_raylib, "RaylibError", mrb->eStandardError_class);
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector2", mrb->object_class);
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vector2_initialize, MRB_ARGS_NONE());
+	}
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector3", mrb->object_class);
