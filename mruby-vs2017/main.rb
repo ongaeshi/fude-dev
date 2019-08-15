@@ -9,3 +9,10 @@ p v.x, v.y
 p Vector3.new
 p Camera.new
 p 1, 2, 3
+
+init_window(800, 450, "Hello, mruby raylib!")
+
+while !window_should_close do
+end
+
+close_window
