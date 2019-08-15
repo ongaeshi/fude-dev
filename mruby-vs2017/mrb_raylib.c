@@ -37,6 +37,24 @@ mrb_value mrb_raylib_vector2_set_x(mrb_state *mrb, mrb_value self)
 	return mrb_float_value(mrb, num);
 }
 
+mrb_value mrb_raylib_vector2_y(mrb_state *mrb, mrb_value self)
+{
+	Vector2 *obj = DATA_PTR(self);
+
+	return mrb_float_value(mrb, obj->y);
+}
+
+mrb_value mrb_raylib_vector2_set_y(mrb_state *mrb, mrb_value self)
+{
+	mrb_float num;
+	mrb_get_args(mrb, "f", &num);
+
+	Vector2 *obj = DATA_PTR(self);
+	obj->y = num;
+
+	return mrb_float_value(mrb, num);
+}
+
 const static struct mrb_data_type mrb_raylib_vector3_type = { "Vector3", mrb_free };
 
 mrb_value mrb_raylib_vector3_initialize(mrb_state *mrb, mrb_value self)
@@ -74,6 +92,8 @@ void mrb_raylib_module_init(mrb_state *mrb)
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vector2_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "x", mrb_raylib_vector2_x, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "x=", mrb_raylib_vector2_set_x, MRB_ARGS_REQ(1));
+		mrb_define_method(mrb, cls, "y", mrb_raylib_vector2_y, MRB_ARGS_NONE());
+		mrb_define_method(mrb, cls, "y=", mrb_raylib_vector2_set_y, MRB_ARGS_REQ(1));
 	}
 
 	{
