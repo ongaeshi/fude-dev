@@ -184,6 +184,23 @@ mrb_clear_background(mrb_state *mrb, mrb_value self)
 	return self;
 }
 
+static mrb_value
+mrb_draw_text(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_int posX, posY = 0;
+	mrb_int fontSize = 0;
+	mrb_value color;
+
+	mrb_get_args(mrb, "Siiio", &text, &posX, &posY, &fontSize, &color);
+
+	Color* c = (Color*)DATA_PTR(color);
+
+	DrawText(RSTRING_PTR(text), posX, posY, fontSize, *c);
+
+	return self;
+}
+
 void mrb_raylib_module_init(mrb_state *mrb)
 {
 	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
@@ -230,7 +247,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	}
 
 	{
-		//mrb_define_module_function(mrb, mod_raylib, "draw_text", mrb_draw_text, MRB_ARGS_REQ(5));
+		mrb_define_module_function(mrb, mod_raylib, "draw_text", mrb_draw_text, MRB_ARGS_REQ(5));
 	}
 }
 
