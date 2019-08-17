@@ -1,5 +1,7 @@
 require './raylib'
 
+c = Color.new 1, 2, 3, 4
+
 v = Vector2.new
 p v
 v.x = 1.5

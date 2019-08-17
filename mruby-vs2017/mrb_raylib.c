@@ -7,6 +7,28 @@
 #include "raylib.h"
 #include <string.h>
 
+const static struct mrb_data_type mrb_raylib_color_type = { "Color", mrb_free };
+
+static mrb_value
+mrb_raylib_color_initialize(mrb_state *mrb, mrb_value self)
+{
+	mrb_float r, g, b, a;
+	mrb_get_args(mrb, "iiii", &r, &g, &b, &a);
+
+	Color *obj;
+
+	obj = (Color*)mrb_malloc(mrb, sizeof(Color));
+	// memset(obj, 0, sizeof(Color));
+	obj->r = r;
+	obj->g = g;
+	obj->b = b;
+	obj->a = a;
+
+	DATA_TYPE(self) = &mrb_raylib_color_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
 const static struct mrb_data_type mrb_raylib_vector2_type = { "Vector2", mrb_free };
 
 static mrb_value
@@ -18,6 +40,7 @@ mrb_raylib_vector2_initialize(mrb_state *mrb, mrb_value self)
 	memset(p, 0, sizeof(Vector2));
 	DATA_TYPE(self) = &mrb_raylib_vector2_type;
 	DATA_PTR(self) = p;
+
 	return self;
 }
 
@@ -121,6 +144,12 @@ void mrb_raylib_module_init(mrb_state *mrb)
 {
 	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
 	struct RClass *raylib_error_cls = mrb_define_class_under(mrb, mod_raylib, "RaylibError", mrb->eStandardError_class);
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Color", mrb->object_class);
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_color_initialize, MRB_ARGS_REQ(4));
+	}
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector2", mrb->object_class);
