@@ -17,7 +17,7 @@ window(800, 450, "Hello, raylib on mruby!") do
 
   while !window_should_close do
     draw do
-	#   clear_background(RAYWHITE)
+	  clear_background(RAYWHITE)
 	#   draw_text("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY)
 	end
   end

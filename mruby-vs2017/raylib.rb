@@ -1,9 +1,9 @@
 include Raylib
 
-# module Raylib
-#   RAYWHITE  = Color.new 245, 245, 245, 255
-#   LIGHTGRAY = Color.new 200, 200, 200, 255
-# end
+module Raylib
+  RAYWHITE  = Color.new 245, 245, 245, 255
+  LIGHTGRAY = Color.new 200, 200, 200, 255
+end
 
 module Raylib
   def window(x, y, title)

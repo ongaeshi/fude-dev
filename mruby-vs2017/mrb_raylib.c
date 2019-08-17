@@ -12,7 +12,7 @@ const static struct mrb_data_type mrb_raylib_color_type = { "Color", mrb_free };
 static mrb_value
 mrb_raylib_color_initialize(mrb_state *mrb, mrb_value self)
 {
-	mrb_float r, g, b, a;
+	mrb_int r, g, b, a;
 	mrb_get_args(mrb, "iiii", &r, &g, &b, &a);
 
 	Color *obj;
@@ -167,6 +167,23 @@ mrb_end_drawing(mrb_state *mrb, mrb_value self)
 	return self;
 }
 
+static mrb_value
+mrb_clear_background(mrb_state *mrb, mrb_value self)
+{
+	mrb_value color;
+
+	mrb_get_args(mrb, "o", &color);
+
+#if 1 // slower patch: https://github.com/raysan5/raylib/issues/922
+	Vector3 v = { 0, 0, 0 };
+	DrawSphere(v, 0, WHITE);
+#endif
+
+	ClearBackground(*(Color*)DATA_PTR(color));
+
+	return self;
+}
+
 void mrb_raylib_module_init(mrb_state *mrb)
 {
 	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
@@ -205,7 +222,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 		mrb_define_module_function(mrb, mod_raylib, "close_window", mrb_close_window, MRB_ARGS_NONE());
 		mrb_define_module_function(mrb, mod_raylib, "window_should_close", mrb_window_should_close, MRB_ARGS_NONE());
 
-		//mrb_define_module_function(mrb, mod_RayLib, "clear_background", mrb_clear_background, MRB_ARGS_REQ(1));
+		mrb_define_module_function(mrb, mod_raylib, "clear_background", mrb_clear_background, MRB_ARGS_REQ(1));
 		mrb_define_module_function(mrb, mod_raylib, "begin_drawing", mrb_begin_drawing, MRB_ARGS_NONE());
 		mrb_define_module_function(mrb, mod_raylib, "end_drawing", mrb_end_drawing, MRB_ARGS_NONE());
 
