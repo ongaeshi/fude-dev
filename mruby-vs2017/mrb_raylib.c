@@ -140,6 +140,33 @@ mrb_window_should_close(mrb_state *mrb, mrb_value self)
 	return mrb_bool_value(WindowShouldClose());
 }
 
+static mrb_value
+mrb_set_target_fps(mrb_state *mrb, mrb_value self)
+{
+	mrb_int fps;
+	mrb_get_args(mrb, "i", &fps);
+
+	SetTargetFPS(fps);
+
+	return self;
+}
+
+static mrb_value
+mrb_begin_drawing(mrb_state *mrb, mrb_value self)
+{
+	BeginDrawing();
+
+	return self;
+}
+
+static mrb_value
+mrb_end_drawing(mrb_state *mrb, mrb_value self)
+{
+	EndDrawing();
+
+	return self;
+}
+
 void mrb_raylib_module_init(mrb_state *mrb)
 {
 	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
@@ -179,10 +206,10 @@ void mrb_raylib_module_init(mrb_state *mrb)
 		mrb_define_module_function(mrb, mod_raylib, "window_should_close", mrb_window_should_close, MRB_ARGS_NONE());
 
 		//mrb_define_module_function(mrb, mod_RayLib, "clear_background", mrb_clear_background, MRB_ARGS_REQ(1));
-		//mrb_define_module_function(mrb, mod_raylib, "begin_drawing", mrb_begin_drawing, MRB_ARGS_NONE());
-		//mrb_define_module_function(mrb, mod_raylib, "end_drawing", mrb_end_drawing, MRB_ARGS_NONE());
+		mrb_define_module_function(mrb, mod_raylib, "begin_drawing", mrb_begin_drawing, MRB_ARGS_NONE());
+		mrb_define_module_function(mrb, mod_raylib, "end_drawing", mrb_end_drawing, MRB_ARGS_NONE());
 
-		//mrb_define_module_function(mrb, mod_raylib, "set_target_fps", mrb_set_target_fps, MRB_ARGS_REQ(1));
+		mrb_define_module_function(mrb, mod_raylib, "set_target_fps", mrb_set_target_fps, MRB_ARGS_REQ(1));
 	}
 
 	{
