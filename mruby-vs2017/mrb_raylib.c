@@ -1,10 +1,10 @@
 ﻿#include "mrb_raylib.h"
 
-#include "mruby/class.h"
-#include "mruby/data.h"
-#include "mruby/string.h"
-#include "mruby/value.h"
-#include "raylib.h"
+#include <mruby/class.h>
+#include <mruby/data.h>
+#include <mruby/string.h>
+#include <mruby/value.h>
+#include <raylib.h>
 #include <string.h>
 
 const static struct mrb_data_type mrb_raylib_color_type = { "Color", mrb_free };
