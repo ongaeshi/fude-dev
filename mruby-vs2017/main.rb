@@ -1,6 +1,6 @@
 require './raylib'
 
-c = Color.new 128, 128, 128, 255
+c = make_color 128, 128, 128, 255
 
 v = Vector2.new
 p v
@@ -10,7 +10,7 @@ p v.x, v.y
 
 p c
 p Vector3.new
-p Camera.new
+# p Camera.new
 p 1, 2, 3
 
 window(800, 450, "Hello, raylib on mruby!") do

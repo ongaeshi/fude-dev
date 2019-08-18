@@ -1,11 +1,20 @@
 include Raylib
 
 module Raylib
-  RAYWHITE  = Color.new 245, 245, 245, 255
-  LIGHTGRAY = Color.new 200, 200, 200, 255
-end
+  def make_color(r, g, b, a)
+    c = Color.new
 
-module Raylib
+	c.r = r
+	c.g = g
+	c.b = b
+	c.a = a
+
+	c
+  end
+
+  RAYWHITE  = make_color 245, 245, 245, 255
+  LIGHTGRAY = make_color 200, 200, 200, 255
+
   def window(x, y, title)
     init_window(x, y, title)
     yield
