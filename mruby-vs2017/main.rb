@@ -19,6 +19,12 @@ window(800, 450, "Hello, raylib on mruby!") do
   x, y, font_size = 190, 200, 20
 
   while !window_should_close do
+    x -= 1 if is_mouse_button_down(0)
+	x += 1 if is_mouse_button_down(1)
+	open_url("https://github.com/raysan5/raylib") if is_mouse_button_pressed(2)
+
+	font_size += get_mouse_wheel_move
+
     draw do
 	  clear_background(RAYWHITE)
 	  draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
