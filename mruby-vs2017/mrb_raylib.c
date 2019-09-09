@@ -7,7 +7,24 @@
 #include <raylib.h>
 #include <string.h>
 
+static struct RClass *mrb_cls_raylib_vector2;
 const static struct mrb_data_type mrb_raylib_vector2_type = { "Vector2", mrb_free };
+
+static mrb_value
+mrb_raylib_vector2_to_mrb(mrb_state *mrb, Vector2 src)
+{
+	Vector2 *obj = (Vector2*)mrb_malloc(mrb, sizeof(Vector2));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_vector2,
+		obj,
+		&mrb_raylib_vector2_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_vector2_initialize(mrb_state *mrb, mrb_value self)
@@ -61,7 +78,24 @@ mrb_raylib_vector2_set_y(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_vector3;
 const static struct mrb_data_type mrb_raylib_vector3_type = { "Vector3", mrb_free };
+
+static mrb_value
+mrb_raylib_vector3_to_mrb(mrb_state *mrb, Vector3 src)
+{
+	Vector3 *obj = (Vector3*)mrb_malloc(mrb, sizeof(Vector3));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_vector3,
+		obj,
+		&mrb_raylib_vector3_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_vector3_initialize(mrb_state *mrb, mrb_value self)
@@ -134,7 +168,24 @@ mrb_raylib_vector3_set_z(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_vector4;
 const static struct mrb_data_type mrb_raylib_vector4_type = { "Vector4", mrb_free };
+
+static mrb_value
+mrb_raylib_vector4_to_mrb(mrb_state *mrb, Vector4 src)
+{
+	Vector4 *obj = (Vector4*)mrb_malloc(mrb, sizeof(Vector4));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_vector4,
+		obj,
+		&mrb_raylib_vector4_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_vector4_initialize(mrb_state *mrb, mrb_value self)
@@ -226,7 +277,24 @@ mrb_raylib_vector4_set_w(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_matrix;
 const static struct mrb_data_type mrb_raylib_matrix_type = { "Matrix", mrb_free };
+
+static mrb_value
+mrb_raylib_matrix_to_mrb(mrb_state *mrb, Matrix src)
+{
+	Matrix *obj = (Matrix*)mrb_malloc(mrb, sizeof(Matrix));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_matrix,
+		obj,
+		&mrb_raylib_matrix_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_matrix_initialize(mrb_state *mrb, mrb_value self)
@@ -546,7 +614,24 @@ mrb_raylib_matrix_set_m15(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_color;
 const static struct mrb_data_type mrb_raylib_color_type = { "Color", mrb_free };
+
+static mrb_value
+mrb_raylib_color_to_mrb(mrb_state *mrb, Color src)
+{
+	Color *obj = (Color*)mrb_malloc(mrb, sizeof(Color));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_color,
+		obj,
+		&mrb_raylib_color_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_color_initialize(mrb_state *mrb, mrb_value self)
@@ -638,7 +723,24 @@ mrb_raylib_color_set_a(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_rectangle;
 const static struct mrb_data_type mrb_raylib_rectangle_type = { "Rectangle", mrb_free };
+
+static mrb_value
+mrb_raylib_rectangle_to_mrb(mrb_state *mrb, Rectangle src)
+{
+	Rectangle *obj = (Rectangle*)mrb_malloc(mrb, sizeof(Rectangle));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_rectangle,
+		obj,
+		&mrb_raylib_rectangle_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_rectangle_initialize(mrb_state *mrb, mrb_value self)
@@ -730,7 +832,24 @@ mrb_raylib_rectangle_set_height(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_image;
 const static struct mrb_data_type mrb_raylib_image_type = { "Image", mrb_free };
+
+static mrb_value
+mrb_raylib_image_to_mrb(mrb_state *mrb, Image src)
+{
+	Image *obj = (Image*)mrb_malloc(mrb, sizeof(Image));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_image,
+		obj,
+		&mrb_raylib_image_type
+	);
+
+	return mrb_obj_value(data);
+}
 
 static mrb_value
 mrb_raylib_image_initialize(mrb_state *mrb, mrb_value self)
@@ -921,6 +1040,17 @@ mrb_raylib_hide_window(mrb_state *mrb, mrb_value self)
 
 
 	HideWindow();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_window_icon(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_get_args(mrb, "o", &image);
+
+	SetWindowIcon(*(Image*)DATA_PTR(image));
 
 	return self;
 }
@@ -1243,6 +1373,62 @@ mrb_raylib_color_to_int(mrb_state *mrb, mrb_value self)
 	mrb_get_args(mrb, "o", &color);
 
 	mrb_value ret = mrb_fixnum_value(ColorToInt(*(Color*)DATA_PTR(color)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_color_normalize(mrb_state *mrb, mrb_value self)
+{
+	mrb_value color;
+	mrb_get_args(mrb, "o", &color);
+
+	mrb_value ret = mrb_raylib_vector4_to_mrb(mrb, ColorNormalize(*(Color*)DATA_PTR(color)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_color_to_hsv(mrb_state *mrb, mrb_value self)
+{
+	mrb_value color;
+	mrb_get_args(mrb, "o", &color);
+
+	mrb_value ret = mrb_raylib_vector3_to_mrb(mrb, ColorToHSV(*(Color*)DATA_PTR(color)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_color_from_hsv(mrb_state *mrb, mrb_value self)
+{
+	mrb_value hsv;
+	mrb_get_args(mrb, "o", &hsv);
+
+	mrb_value ret = mrb_raylib_color_to_mrb(mrb, ColorFromHSV(*(Vector3*)DATA_PTR(hsv)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_color(mrb_state *mrb, mrb_value self)
+{
+	mrb_int hexValue;
+	mrb_get_args(mrb, "i", &hexValue);
+
+	mrb_value ret = mrb_raylib_color_to_mrb(mrb, GetColor(hexValue));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_fade(mrb_state *mrb, mrb_value self)
+{
+	mrb_value color;
+	mrb_float alpha;
+	mrb_get_args(mrb, "of", &color, &alpha);
+
+	mrb_value ret = mrb_raylib_color_to_mrb(mrb, Fade(*(Color*)DATA_PTR(color), alpha));
 
 	return ret;
 }
@@ -1689,6 +1875,16 @@ mrb_raylib_get_mouse_y(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_get_mouse_position(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_vector2_to_mrb(mrb, GetMousePosition());
+
+	return ret;
+}
+
+static mrb_value
 mrb_raylib_set_mouse_position(mrb_state *mrb, mrb_value self)
 {
 	mrb_int x;
@@ -1755,6 +1951,17 @@ mrb_raylib_get_touch_y(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_get_touch_position(mrb_state *mrb, mrb_value self)
+{
+	mrb_int index;
+	mrb_get_args(mrb, "i", &index);
+
+	mrb_value ret = mrb_raylib_vector2_to_mrb(mrb, GetTouchPosition(index));
+
+	return ret;
+}
+
+static mrb_value
 mrb_raylib_is_gesture_detected(mrb_state *mrb, mrb_value self)
 {
 	mrb_int gesture;
@@ -1796,11 +2003,31 @@ mrb_raylib_get_gesture_hold_duration(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_get_gesture_drag_vector(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_vector2_to_mrb(mrb, GetGestureDragVector());
+
+	return ret;
+}
+
+static mrb_value
 mrb_raylib_get_gesture_drag_angle(mrb_state *mrb, mrb_value self)
 {
 
 
 	mrb_value ret = mrb_float_value(mrb, GetGestureDragAngle());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_gesture_pinch_vector(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_vector2_to_mrb(mrb, GetGesturePinchVector());
 
 	return ret;
 }
@@ -1887,6 +2114,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector2", mrb->object_class);
+		mrb_cls_raylib_vector2 = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vector2_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "x", mrb_raylib_vector2_x, MRB_ARGS_NONE());
@@ -1897,6 +2125,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector3", mrb->object_class);
+		mrb_cls_raylib_vector3 = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vector3_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "x", mrb_raylib_vector3_x, MRB_ARGS_NONE());
@@ -1909,6 +2138,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Vector4", mrb->object_class);
+		mrb_cls_raylib_vector4 = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vector4_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "x", mrb_raylib_vector4_x, MRB_ARGS_NONE());
@@ -1923,6 +2153,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Matrix", mrb->object_class);
+		mrb_cls_raylib_matrix = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_matrix_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "m0", mrb_raylib_matrix_m0, MRB_ARGS_NONE());
@@ -1961,6 +2192,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Color", mrb->object_class);
+		mrb_cls_raylib_color = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_color_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "r", mrb_raylib_color_r, MRB_ARGS_NONE());
@@ -1975,6 +2207,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Rectangle", mrb->object_class);
+		mrb_cls_raylib_rectangle = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_rectangle_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "x", mrb_raylib_rectangle_x, MRB_ARGS_NONE());
@@ -1989,6 +2222,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 
 	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Image", mrb->object_class);
+		mrb_cls_raylib_image = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_image_initialize, MRB_ARGS_NONE());
 		mrb_define_method(mrb, cls, "width", mrb_raylib_image_width, MRB_ARGS_NONE());
@@ -2011,6 +2245,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "toggle_fullscreen", mrb_raylib_toggle_fullscreen, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "unhide_window", mrb_raylib_unhide_window, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "hide_window", mrb_raylib_hide_window, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "set_window_icon", mrb_raylib_set_window_icon, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_window_title", mrb_raylib_set_window_title, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_window_position", mrb_raylib_set_window_position, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "set_window_monitor", mrb_raylib_set_window_monitor, MRB_ARGS_REQ(1));
@@ -2041,6 +2276,11 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "get_fps", mrb_raylib_get_fps, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_frame_time", mrb_raylib_get_frame_time, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "color_to_int", mrb_raylib_color_to_int, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "color_normalize", mrb_raylib_color_normalize, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "color_to_hsv", mrb_raylib_color_to_hsv, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "color_from_hsv", mrb_raylib_color_from_hsv, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "get_color", mrb_raylib_get_color, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "fade", mrb_raylib_fade, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "set_trace_log_level", mrb_raylib_set_trace_log_level, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_trace_log_exit", mrb_raylib_set_trace_log_exit, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "take_screenshot", mrb_raylib_take_screenshot, MRB_ARGS_REQ(1));
@@ -2081,17 +2321,21 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "is_mouse_button_up", mrb_raylib_is_mouse_button_up, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_mouse_x", mrb_raylib_get_mouse_x, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_mouse_y", mrb_raylib_get_mouse_y, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_mouse_position", mrb_raylib_get_mouse_position, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "set_mouse_position", mrb_raylib_set_mouse_position, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "set_mouse_offset", mrb_raylib_set_mouse_offset, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "set_mouse_scale", mrb_raylib_set_mouse_scale, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "get_mouse_wheel_move", mrb_raylib_get_mouse_wheel_move, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_touch_x", mrb_raylib_get_touch_x, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_touch_y", mrb_raylib_get_touch_y, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_touch_position", mrb_raylib_get_touch_position, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "is_gesture_detected", mrb_raylib_is_gesture_detected, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_detected", mrb_raylib_get_gesture_detected, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_touch_points_count", mrb_raylib_get_touch_points_count, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_hold_duration", mrb_raylib_get_gesture_hold_duration, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_gesture_drag_vector", mrb_raylib_get_gesture_drag_vector, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_drag_angle", mrb_raylib_get_gesture_drag_angle, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_gesture_pinch_vector", mrb_raylib_get_gesture_pinch_vector, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_pinch_angle", mrb_raylib_get_gesture_pinch_angle, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_pan_control", mrb_raylib_set_camera_pan_control, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_alt_control", mrb_raylib_set_camera_alt_control, MRB_ARGS_REQ(1));
