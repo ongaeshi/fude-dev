@@ -2092,6 +2092,721 @@ mrb_raylib_set_camera_move_controls(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_draw_pixel(mrb_state *mrb, mrb_value self)
+{
+	mrb_int posX;
+	mrb_int posY;
+	mrb_value color;
+	mrb_get_args(mrb, "iio", &posX, &posY, &color);
+
+	DrawPixel(posX, posY, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_pixel_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_value color;
+	mrb_get_args(mrb, "oo", &position, &color);
+
+	DrawPixelV(*(Vector2*)DATA_PTR(position), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_line(mrb_state *mrb, mrb_value self)
+{
+	mrb_int startPosX;
+	mrb_int startPosY;
+	mrb_int endPosX;
+	mrb_int endPosY;
+	mrb_value color;
+	mrb_get_args(mrb, "iiiio", &startPosX, &startPosY, &endPosX, &endPosY, &color);
+
+	DrawLine(startPosX, startPosY, endPosX, endPosY, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_line_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value startPos;
+	mrb_value endPos;
+	mrb_value color;
+	mrb_get_args(mrb, "ooo", &startPos, &endPos, &color);
+
+	DrawLineV(*(Vector2*)DATA_PTR(startPos), *(Vector2*)DATA_PTR(endPos), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_line_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value startPos;
+	mrb_value endPos;
+	mrb_float thick;
+	mrb_value color;
+	mrb_get_args(mrb, "oofo", &startPos, &endPos, &thick, &color);
+
+	DrawLineEx(*(Vector2*)DATA_PTR(startPos), *(Vector2*)DATA_PTR(endPos), thick, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_line_bezier(mrb_state *mrb, mrb_value self)
+{
+	mrb_value startPos;
+	mrb_value endPos;
+	mrb_float thick;
+	mrb_value color;
+	mrb_get_args(mrb, "oofo", &startPos, &endPos, &thick, &color);
+
+	DrawLineBezier(*(Vector2*)DATA_PTR(startPos), *(Vector2*)DATA_PTR(endPos), thick, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle(mrb_state *mrb, mrb_value self)
+{
+	mrb_int centerX;
+	mrb_int centerY;
+	mrb_float radius;
+	mrb_value color;
+	mrb_get_args(mrb, "iifo", &centerX, &centerY, &radius, &color);
+
+	DrawCircle(centerX, centerY, radius, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle_sector(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float radius;
+	mrb_int startAngle;
+	mrb_int endAngle;
+	mrb_int segments;
+	mrb_value color;
+	mrb_get_args(mrb, "ofiiio", &center, &radius, &startAngle, &endAngle, &segments, &color);
+
+	DrawCircleSector(*(Vector2*)DATA_PTR(center), radius, startAngle, endAngle, segments, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle_sector_lines(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float radius;
+	mrb_int startAngle;
+	mrb_int endAngle;
+	mrb_int segments;
+	mrb_value color;
+	mrb_get_args(mrb, "ofiiio", &center, &radius, &startAngle, &endAngle, &segments, &color);
+
+	DrawCircleSectorLines(*(Vector2*)DATA_PTR(center), radius, startAngle, endAngle, segments, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle_gradient(mrb_state *mrb, mrb_value self)
+{
+	mrb_int centerX;
+	mrb_int centerY;
+	mrb_float radius;
+	mrb_value color1;
+	mrb_value color2;
+	mrb_get_args(mrb, "iifoo", &centerX, &centerY, &radius, &color1, &color2);
+
+	DrawCircleGradient(centerX, centerY, radius, *(Color*)DATA_PTR(color1), *(Color*)DATA_PTR(color2));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float radius;
+	mrb_value color;
+	mrb_get_args(mrb, "ofo", &center, &radius, &color);
+
+	DrawCircleV(*(Vector2*)DATA_PTR(center), radius, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle_lines(mrb_state *mrb, mrb_value self)
+{
+	mrb_int centerX;
+	mrb_int centerY;
+	mrb_float radius;
+	mrb_value color;
+	mrb_get_args(mrb, "iifo", &centerX, &centerY, &radius, &color);
+
+	DrawCircleLines(centerX, centerY, radius, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_ring(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float innerRadius;
+	mrb_float outerRadius;
+	mrb_int startAngle;
+	mrb_int endAngle;
+	mrb_int segments;
+	mrb_value color;
+	mrb_get_args(mrb, "offiiio", &center, &innerRadius, &outerRadius, &startAngle, &endAngle, &segments, &color);
+
+	DrawRing(*(Vector2*)DATA_PTR(center), innerRadius, outerRadius, startAngle, endAngle, segments, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_ring_lines(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float innerRadius;
+	mrb_float outerRadius;
+	mrb_int startAngle;
+	mrb_int endAngle;
+	mrb_int segments;
+	mrb_value color;
+	mrb_get_args(mrb, "offiiio", &center, &innerRadius, &outerRadius, &startAngle, &endAngle, &segments, &color);
+
+	DrawRingLines(*(Vector2*)DATA_PTR(center), innerRadius, outerRadius, startAngle, endAngle, segments, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle(mrb_state *mrb, mrb_value self)
+{
+	mrb_int posX;
+	mrb_int posY;
+	mrb_int width;
+	mrb_int height;
+	mrb_value color;
+	mrb_get_args(mrb, "iiiio", &posX, &posY, &width, &height, &color);
+
+	DrawRectangle(posX, posY, width, height, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_value size;
+	mrb_value color;
+	mrb_get_args(mrb, "ooo", &position, &size, &color);
+
+	DrawRectangleV(*(Vector2*)DATA_PTR(position), *(Vector2*)DATA_PTR(size), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec;
+	mrb_value color;
+	mrb_get_args(mrb, "oo", &rec, &color);
+
+	DrawRectangleRec(*(Rectangle*)DATA_PTR(rec), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_pro(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec;
+	mrb_value origin;
+	mrb_float rotation;
+	mrb_value color;
+	mrb_get_args(mrb, "oofo", &rec, &origin, &rotation, &color);
+
+	DrawRectanglePro(*(Rectangle*)DATA_PTR(rec), *(Vector2*)DATA_PTR(origin), rotation, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_gradient_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_int posX;
+	mrb_int posY;
+	mrb_int width;
+	mrb_int height;
+	mrb_value color1;
+	mrb_value color2;
+	mrb_get_args(mrb, "iiiioo", &posX, &posY, &width, &height, &color1, &color2);
+
+	DrawRectangleGradientV(posX, posY, width, height, *(Color*)DATA_PTR(color1), *(Color*)DATA_PTR(color2));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_gradient_h(mrb_state *mrb, mrb_value self)
+{
+	mrb_int posX;
+	mrb_int posY;
+	mrb_int width;
+	mrb_int height;
+	mrb_value color1;
+	mrb_value color2;
+	mrb_get_args(mrb, "iiiioo", &posX, &posY, &width, &height, &color1, &color2);
+
+	DrawRectangleGradientH(posX, posY, width, height, *(Color*)DATA_PTR(color1), *(Color*)DATA_PTR(color2));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_gradient_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec;
+	mrb_value col1;
+	mrb_value col2;
+	mrb_value col3;
+	mrb_value col4;
+	mrb_get_args(mrb, "ooooo", &rec, &col1, &col2, &col3, &col4);
+
+	DrawRectangleGradientEx(*(Rectangle*)DATA_PTR(rec), *(Color*)DATA_PTR(col1), *(Color*)DATA_PTR(col2), *(Color*)DATA_PTR(col3), *(Color*)DATA_PTR(col4));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_lines(mrb_state *mrb, mrb_value self)
+{
+	mrb_int posX;
+	mrb_int posY;
+	mrb_int width;
+	mrb_int height;
+	mrb_value color;
+	mrb_get_args(mrb, "iiiio", &posX, &posY, &width, &height, &color);
+
+	DrawRectangleLines(posX, posY, width, height, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_lines_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec;
+	mrb_int lineThick;
+	mrb_value color;
+	mrb_get_args(mrb, "oio", &rec, &lineThick, &color);
+
+	DrawRectangleLinesEx(*(Rectangle*)DATA_PTR(rec), lineThick, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_rounded(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec;
+	mrb_float roundness;
+	mrb_int segments;
+	mrb_value color;
+	mrb_get_args(mrb, "ofio", &rec, &roundness, &segments, &color);
+
+	DrawRectangleRounded(*(Rectangle*)DATA_PTR(rec), roundness, segments, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_rectangle_rounded_lines(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec;
+	mrb_float roundness;
+	mrb_int segments;
+	mrb_int lineThick;
+	mrb_value color;
+	mrb_get_args(mrb, "ofiio", &rec, &roundness, &segments, &lineThick, &color);
+
+	DrawRectangleRoundedLines(*(Rectangle*)DATA_PTR(rec), roundness, segments, lineThick, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_triangle(mrb_state *mrb, mrb_value self)
+{
+	mrb_value v1;
+	mrb_value v2;
+	mrb_value v3;
+	mrb_value color;
+	mrb_get_args(mrb, "oooo", &v1, &v2, &v3, &color);
+
+	DrawTriangle(*(Vector2*)DATA_PTR(v1), *(Vector2*)DATA_PTR(v2), *(Vector2*)DATA_PTR(v3), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_triangle_lines(mrb_state *mrb, mrb_value self)
+{
+	mrb_value v1;
+	mrb_value v2;
+	mrb_value v3;
+	mrb_value color;
+	mrb_get_args(mrb, "oooo", &v1, &v2, &v3, &color);
+
+	DrawTriangleLines(*(Vector2*)DATA_PTR(v1), *(Vector2*)DATA_PTR(v2), *(Vector2*)DATA_PTR(v3), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_poly(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_int sides;
+	mrb_float radius;
+	mrb_float rotation;
+	mrb_value color;
+	mrb_get_args(mrb, "oiffo", &center, &sides, &radius, &rotation, &color);
+
+	DrawPoly(*(Vector2*)DATA_PTR(center), sides, radius, rotation, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_check_collision_recs(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec1;
+	mrb_value rec2;
+	mrb_get_args(mrb, "oo", &rec1, &rec2);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionRecs(*(Rectangle*)DATA_PTR(rec1), *(Rectangle*)DATA_PTR(rec2)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_circles(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center1;
+	mrb_float radius1;
+	mrb_value center2;
+	mrb_float radius2;
+	mrb_get_args(mrb, "ofof", &center1, &radius1, &center2, &radius2);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionCircles(*(Vector2*)DATA_PTR(center1), radius1, *(Vector2*)DATA_PTR(center2), radius2));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_circle_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float radius;
+	mrb_value rec;
+	mrb_get_args(mrb, "ofo", &center, &radius, &rec);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionCircleRec(*(Vector2*)DATA_PTR(center), radius, *(Rectangle*)DATA_PTR(rec)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_collision_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value rec1;
+	mrb_value rec2;
+	mrb_get_args(mrb, "oo", &rec1, &rec2);
+
+	mrb_value ret = mrb_raylib_rectangle_to_mrb(mrb, GetCollisionRec(*(Rectangle*)DATA_PTR(rec1), *(Rectangle*)DATA_PTR(rec2)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_point_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value point;
+	mrb_value rec;
+	mrb_get_args(mrb, "oo", &point, &rec);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionPointRec(*(Vector2*)DATA_PTR(point), *(Rectangle*)DATA_PTR(rec)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_point_circle(mrb_state *mrb, mrb_value self)
+{
+	mrb_value point;
+	mrb_value center;
+	mrb_float radius;
+	mrb_get_args(mrb, "oof", &point, &center, &radius);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionPointCircle(*(Vector2*)DATA_PTR(point), *(Vector2*)DATA_PTR(center), radius));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_point_triangle(mrb_state *mrb, mrb_value self)
+{
+	mrb_value point;
+	mrb_value p1;
+	mrb_value p2;
+	mrb_value p3;
+	mrb_get_args(mrb, "oooo", &point, &p1, &p2, &p3);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionPointTriangle(*(Vector2*)DATA_PTR(point), *(Vector2*)DATA_PTR(p1), *(Vector2*)DATA_PTR(p2), *(Vector2*)DATA_PTR(p3)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_image(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, LoadImage(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_image_raw(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_int width;
+	mrb_int height;
+	mrb_int format;
+	mrb_int headerSize;
+	mrb_get_args(mrb, "Siiii", &fileName, &width, &height, &format, &headerSize);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, LoadImageRaw(RSTRING_PTR(fileName), width, height, format, headerSize));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_export_image(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_value fileName;
+	mrb_get_args(mrb, "oS", &image, &fileName);
+
+	ExportImage(*(Image*)DATA_PTR(image), RSTRING_PTR(fileName));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_export_image_as_code(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_value fileName;
+	mrb_get_args(mrb, "oS", &image, &fileName);
+
+	ExportImageAsCode(*(Image*)DATA_PTR(image), RSTRING_PTR(fileName));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_unload_image(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_get_args(mrb, "o", &image);
+
+	UnloadImage(*(Image*)DATA_PTR(image));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_get_pixel_data_size(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_int format;
+	mrb_get_args(mrb, "iii", &width, &height, &format);
+
+	mrb_value ret = mrb_fixnum_value(GetPixelDataSize(width, height, format));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_screen_data(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GetScreenData());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_image_copy(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_get_args(mrb, "o", &image);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, ImageCopy(*(Image*)DATA_PTR(image)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_image_text(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_int fontSize;
+	mrb_value color;
+	mrb_get_args(mrb, "Sio", &text, &fontSize, &color);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, ImageText(RSTRING_PTR(text), fontSize, *(Color*)DATA_PTR(color)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_color(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_value color;
+	mrb_get_args(mrb, "iio", &width, &height, &color);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageColor(width, height, *(Color*)DATA_PTR(color)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_gradient_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_value top;
+	mrb_value bottom;
+	mrb_get_args(mrb, "iioo", &width, &height, &top, &bottom);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageGradientV(width, height, *(Color*)DATA_PTR(top), *(Color*)DATA_PTR(bottom)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_gradient_h(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_value left;
+	mrb_value right;
+	mrb_get_args(mrb, "iioo", &width, &height, &left, &right);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageGradientH(width, height, *(Color*)DATA_PTR(left), *(Color*)DATA_PTR(right)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_gradient_radial(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_float density;
+	mrb_value inner;
+	mrb_value outer;
+	mrb_get_args(mrb, "iifoo", &width, &height, &density, &inner, &outer);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageGradientRadial(width, height, density, *(Color*)DATA_PTR(inner), *(Color*)DATA_PTR(outer)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_checked(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_int checksX;
+	mrb_int checksY;
+	mrb_value col1;
+	mrb_value col2;
+	mrb_get_args(mrb, "iiiioo", &width, &height, &checksX, &checksY, &col1, &col2);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageChecked(width, height, checksX, checksY, *(Color*)DATA_PTR(col1), *(Color*)DATA_PTR(col2)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_white_noise(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_float factor;
+	mrb_get_args(mrb, "iif", &width, &height, &factor);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageWhiteNoise(width, height, factor));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_perlin_noise(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_int offsetX;
+	mrb_int offsetY;
+	mrb_float scale;
+	mrb_get_args(mrb, "iiiif", &width, &height, &offsetX, &offsetY, &scale);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImagePerlinNoise(width, height, offsetX, offsetY, scale));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_image_cellular(mrb_state *mrb, mrb_value self)
+{
+	mrb_int width;
+	mrb_int height;
+	mrb_int tileSize;
+	mrb_get_args(mrb, "iii", &width, &height, &tileSize);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GenImageCellular(width, height, tileSize));
+
+	return ret;
+}
+
+static mrb_value
 mrb_raylib_draw_text(mrb_state *mrb, mrb_value self)
 {
 	mrb_value text;
@@ -2341,6 +3056,58 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_alt_control", mrb_raylib_set_camera_alt_control, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_smooth_zoom_control", mrb_raylib_set_camera_smooth_zoom_control, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_move_controls", mrb_raylib_set_camera_move_controls, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_pixel", mrb_raylib_draw_pixel, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_pixel_v", mrb_raylib_draw_pixel_v, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "draw_line", mrb_raylib_draw_line, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_line_v", mrb_raylib_draw_line_v, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_line_ex", mrb_raylib_draw_line_ex, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_line_bezier", mrb_raylib_draw_line_bezier, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle", mrb_raylib_draw_circle, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle_sector", mrb_raylib_draw_circle_sector, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle_sector_lines", mrb_raylib_draw_circle_sector_lines, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle_gradient", mrb_raylib_draw_circle_gradient, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle_v", mrb_raylib_draw_circle_v, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle_lines", mrb_raylib_draw_circle_lines, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_ring", mrb_raylib_draw_ring, MRB_ARGS_REQ(7));
+	mrb_define_module_function(mrb, mod_raylib, "draw_ring_lines", mrb_raylib_draw_ring_lines, MRB_ARGS_REQ(7));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle", mrb_raylib_draw_rectangle, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_v", mrb_raylib_draw_rectangle_v, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_rec", mrb_raylib_draw_rectangle_rec, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_pro", mrb_raylib_draw_rectangle_pro, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_gradient_v", mrb_raylib_draw_rectangle_gradient_v, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_gradient_h", mrb_raylib_draw_rectangle_gradient_h, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_gradient_ex", mrb_raylib_draw_rectangle_gradient_ex, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_lines", mrb_raylib_draw_rectangle_lines, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_lines_ex", mrb_raylib_draw_rectangle_lines_ex, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_rounded", mrb_raylib_draw_rectangle_rounded, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_rectangle_rounded_lines", mrb_raylib_draw_rectangle_rounded_lines, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_triangle", mrb_raylib_draw_triangle, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_triangle_lines", mrb_raylib_draw_triangle_lines, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_poly", mrb_raylib_draw_poly, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_recs", mrb_raylib_check_collision_recs, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_circles", mrb_raylib_check_collision_circles, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_circle_rec", mrb_raylib_check_collision_circle_rec, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "get_collision_rec", mrb_raylib_get_collision_rec, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_point_rec", mrb_raylib_check_collision_point_rec, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_point_circle", mrb_raylib_check_collision_point_circle, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_point_triangle", mrb_raylib_check_collision_point_triangle, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "load_image", mrb_raylib_load_image, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_image_raw", mrb_raylib_load_image_raw, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "export_image", mrb_raylib_export_image, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "export_image_as_code", mrb_raylib_export_image_as_code, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "unload_image", mrb_raylib_unload_image, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "get_pixel_data_size", mrb_raylib_get_pixel_data_size, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "get_screen_data", mrb_raylib_get_screen_data, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "image_copy", mrb_raylib_image_copy, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "image_text", mrb_raylib_image_text, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_color", mrb_raylib_gen_image_color, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_gradient_v", mrb_raylib_gen_image_gradient_v, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_gradient_h", mrb_raylib_gen_image_gradient_h, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_gradient_radial", mrb_raylib_gen_image_gradient_radial, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_checked", mrb_raylib_gen_image_checked, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_white_noise", mrb_raylib_gen_image_white_noise, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_perlin_noise", mrb_raylib_gen_image_perlin_noise, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "gen_image_cellular", mrb_raylib_gen_image_cellular, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "draw_text", mrb_raylib_draw_text, MRB_ARGS_REQ(5));
 
 }

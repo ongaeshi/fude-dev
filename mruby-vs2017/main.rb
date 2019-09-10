@@ -19,6 +19,30 @@ class Color
   end
 end
 
+class Vector2
+  def self.new_a(a)
+    v = Vector2.new
+	v.x, v.y = a
+	v
+  end
+end
+
+class Color
+  def self.new_a(a)
+    v = Color.new
+	v.r, v.g, v.b, v.a = a
+	v
+  end
+end
+
+def draw_line_bezier2(start_pos, end_pos, thick, color)
+  draw_line_bezier(Vector2.new_a(start_pos), Vector2.new_a(end_pos), thick, Color.new_a(color))
+end
+
+def draw_circle_sector2(center, radius, start_angle, end_angle, segments, color)
+  draw_circle_sector(Vector2.new_a(center), radius, start_angle, end_angle, segments, color)
+end
+
 p get_color 0x111
 # p get_color 0xffffffff
 
@@ -39,6 +63,14 @@ window(800, 450, "Hello, raylib on mruby!") do
     draw do
 	  clear_background(RAYWHITE)
 
+	  (0..100).each do |e|
+  	    draw_pixel(e * 10, 100, LIGHTGRAY)
+  	    draw_line(e * 10, 110, e * 10 + 5, 110, LIGHTGRAY)
+  	    draw_line_bezier2([e * 10, 120], [e * 10 + 30, 150], 1, [200, 200, 200, 255])
+  	    draw_circle(e * 10, 160, 4, LIGHTGRAY)
+  	    draw_circle_sector2([e * 10, 170], 4, 0, e * 4, 10, LIGHTGRAY)
+  	    draw_rectangle(e * 10 - 4, 180, 8, 8, LIGHTGRAY)
+	  end
 	  draw_text("FPS: #{get_fps}", 0, 0, font_size, LIGHTGRAY)
 	  draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
 	  draw_text("Mouse #{v.x}, #{v.y}", x, y +100, font_size, LIGHTGRAY)
