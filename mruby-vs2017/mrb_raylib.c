@@ -941,6 +941,183 @@ mrb_raylib_image_set_format(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_texture2d;
+const static struct mrb_data_type mrb_raylib_texture2d_type = { "Texture2D", mrb_free };
+
+static mrb_value
+mrb_raylib_texture2d_to_mrb(mrb_state *mrb, Texture2D src)
+{
+	Texture2D *obj = (Texture2D*)mrb_malloc(mrb, sizeof(Texture2D));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_texture2d,
+		obj,
+		&mrb_raylib_texture2d_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_texture2d_initialize(mrb_state *mrb, mrb_value self)
+{
+	Texture2D *obj;
+
+	obj = (Texture2D*)mrb_malloc(mrb, sizeof(Texture2D));
+	memset(obj, 0, sizeof(Texture2D));
+
+	DATA_TYPE(self) = &mrb_raylib_texture2d_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+static mrb_value
+mrb_raylib_texture2d_width(mrb_state *mrb, mrb_value self)
+{
+	Texture2D *obj = DATA_PTR(self);
+	return mrb_fixnum_value(obj->width);
+}
+
+static mrb_value
+mrb_raylib_texture2d_set_width(mrb_state *mrb, mrb_value self)
+{
+	mrb_int value;
+	mrb_get_args(mrb, "i", &value);
+
+	Texture2D *obj = DATA_PTR(self);
+	obj->width = value;
+
+	return mrb_fixnum_value(value);
+}
+
+static mrb_value
+mrb_raylib_texture2d_height(mrb_state *mrb, mrb_value self)
+{
+	Texture2D *obj = DATA_PTR(self);
+	return mrb_fixnum_value(obj->height);
+}
+
+static mrb_value
+mrb_raylib_texture2d_set_height(mrb_state *mrb, mrb_value self)
+{
+	mrb_int value;
+	mrb_get_args(mrb, "i", &value);
+
+	Texture2D *obj = DATA_PTR(self);
+	obj->height = value;
+
+	return mrb_fixnum_value(value);
+}
+
+static mrb_value
+mrb_raylib_texture2d_mipmaps(mrb_state *mrb, mrb_value self)
+{
+	Texture2D *obj = DATA_PTR(self);
+	return mrb_fixnum_value(obj->mipmaps);
+}
+
+static mrb_value
+mrb_raylib_texture2d_set_mipmaps(mrb_state *mrb, mrb_value self)
+{
+	mrb_int value;
+	mrb_get_args(mrb, "i", &value);
+
+	Texture2D *obj = DATA_PTR(self);
+	obj->mipmaps = value;
+
+	return mrb_fixnum_value(value);
+}
+
+static mrb_value
+mrb_raylib_texture2d_format(mrb_state *mrb, mrb_value self)
+{
+	Texture2D *obj = DATA_PTR(self);
+	return mrb_fixnum_value(obj->format);
+}
+
+static mrb_value
+mrb_raylib_texture2d_set_format(mrb_state *mrb, mrb_value self)
+{
+	mrb_int value;
+	mrb_get_args(mrb, "i", &value);
+
+	Texture2D *obj = DATA_PTR(self);
+	obj->format = value;
+
+	return mrb_fixnum_value(value);
+}
+
+
+static struct RClass *mrb_cls_raylib_camera3d;
+const static struct mrb_data_type mrb_raylib_camera3d_type = { "Camera3D", mrb_free };
+
+static mrb_value
+mrb_raylib_camera3d_to_mrb(mrb_state *mrb, Camera3D src)
+{
+	Camera3D *obj = (Camera3D*)mrb_malloc(mrb, sizeof(Camera3D));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_camera3d,
+		obj,
+		&mrb_raylib_camera3d_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_camera3d_initialize(mrb_state *mrb, mrb_value self)
+{
+	Camera3D *obj;
+
+	obj = (Camera3D*)mrb_malloc(mrb, sizeof(Camera3D));
+	memset(obj, 0, sizeof(Camera3D));
+
+	DATA_TYPE(self) = &mrb_raylib_camera3d_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_camera2d;
+const static struct mrb_data_type mrb_raylib_camera2d_type = { "Camera2D", mrb_free };
+
+static mrb_value
+mrb_raylib_camera2d_to_mrb(mrb_state *mrb, Camera2D src)
+{
+	Camera2D *obj = (Camera2D*)mrb_malloc(mrb, sizeof(Camera2D));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_camera2d,
+		obj,
+		&mrb_raylib_camera2d_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_camera2d_initialize(mrb_state *mrb, mrb_value self)
+{
+	Camera2D *obj;
+
+	obj = (Camera2D*)mrb_malloc(mrb, sizeof(Camera2D));
+	memset(obj, 0, sizeof(Camera2D));
+
+	DATA_TYPE(self) = &mrb_raylib_camera2d_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
 static mrb_value
 mrb_raylib_init_window(mrb_state *mrb, mrb_value self)
 {
@@ -1306,11 +1483,42 @@ mrb_raylib_end_drawing(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_begin_mode2d(mrb_state *mrb, mrb_value self)
+{
+	mrb_value camera;
+	mrb_get_args(mrb, "o", &camera);
+
+	BeginMode2D(*(Camera2D*)DATA_PTR(camera));
+
+	return self;
+}
+
+static mrb_value
 mrb_raylib_end_mode2d(mrb_state *mrb, mrb_value self)
 {
 
 
 	EndMode2D();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_begin_mode3d(mrb_state *mrb, mrb_value self)
+{
+	mrb_value camera;
+	mrb_get_args(mrb, "o", &camera);
+
+	// Define the camera to look into our 3d world
+	Camera3D cam = { 0 };
+	cam.position = (Vector3) { 0.0f, 10.0f, 10.0f };  // Camera position
+	cam.target = (Vector3) { 0.0f, 0.0f, 0.0f };      // Camera looking at point
+	cam.up = (Vector3) { 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+	cam.fovy = 45.0f;                                // Camera field-of-view Y
+	cam.type = CAMERA_PERSPECTIVE;                   // Camera mode type
+
+	//BeginMode3D(*(Camera3D*)DATA_PTR(camera));
+	BeginMode3D(cam);
 
 	return self;
 }
@@ -2496,6 +2704,18 @@ mrb_raylib_draw_poly(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_set_shapes_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value source;
+	mrb_get_args(mrb, "oo", &texture, &source);
+
+	SetShapesTexture(*(Texture2D*)DATA_PTR(texture), *(Rectangle*)DATA_PTR(source));
+
+	return self;
+}
+
+static mrb_value
 mrb_raylib_check_collision_recs(mrb_state *mrb, mrb_value self)
 {
 	mrb_value rec1;
@@ -2636,12 +2856,45 @@ mrb_raylib_export_image_as_code(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_load_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_texture2d_to_mrb(mrb, LoadTexture(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_texture_from_image(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_get_args(mrb, "o", &image);
+
+	mrb_value ret = mrb_raylib_texture2d_to_mrb(mrb, LoadTextureFromImage(*(Image*)DATA_PTR(image)));
+
+	return ret;
+}
+
+static mrb_value
 mrb_raylib_unload_image(mrb_state *mrb, mrb_value self)
 {
 	mrb_value image;
 	mrb_get_args(mrb, "o", &image);
 
 	UnloadImage(*(Image*)DATA_PTR(image));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_unload_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_get_args(mrb, "o", &texture);
+
+	UnloadTexture(*(Texture2D*)DATA_PTR(texture));
 
 	return self;
 }
@@ -2655,6 +2908,17 @@ mrb_raylib_get_pixel_data_size(mrb_state *mrb, mrb_value self)
 	mrb_get_args(mrb, "iii", &width, &height, &format);
 
 	mrb_value ret = mrb_fixnum_value(GetPixelDataSize(width, height, format));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_texture_data(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_get_args(mrb, "o", &texture);
+
+	mrb_value ret = mrb_raylib_image_to_mrb(mrb, GetTextureData(*(Texture2D*)DATA_PTR(texture)));
 
 	return ret;
 }
@@ -2807,6 +3071,93 @@ mrb_raylib_gen_image_cellular(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_draw_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_int posX;
+	mrb_int posY;
+	mrb_value tint;
+	mrb_get_args(mrb, "oiio", &texture, &posX, &posY, &tint);
+
+	DrawTexture(*(Texture2D*)DATA_PTR(texture), posX, posY, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_texture_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value position;
+	mrb_value tint;
+	mrb_get_args(mrb, "ooo", &texture, &position, &tint);
+
+	DrawTextureV(*(Texture2D*)DATA_PTR(texture), *(Vector2*)DATA_PTR(position), *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_texture_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value position;
+	mrb_float rotation;
+	mrb_float scale;
+	mrb_value tint;
+	mrb_get_args(mrb, "ooffo", &texture, &position, &rotation, &scale, &tint);
+
+	DrawTextureEx(*(Texture2D*)DATA_PTR(texture), *(Vector2*)DATA_PTR(position), rotation, scale, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_texture_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value sourceRec;
+	mrb_value position;
+	mrb_value tint;
+	mrb_get_args(mrb, "oooo", &texture, &sourceRec, &position, &tint);
+
+	DrawTextureRec(*(Texture2D*)DATA_PTR(texture), *(Rectangle*)DATA_PTR(sourceRec), *(Vector2*)DATA_PTR(position), *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_texture_quad(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value tiling;
+	mrb_value offset;
+	mrb_value quad;
+	mrb_value tint;
+	mrb_get_args(mrb, "ooooo", &texture, &tiling, &offset, &quad, &tint);
+
+	DrawTextureQuad(*(Texture2D*)DATA_PTR(texture), *(Vector2*)DATA_PTR(tiling), *(Vector2*)DATA_PTR(offset), *(Rectangle*)DATA_PTR(quad), *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_texture_pro(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value sourceRec;
+	mrb_value destRec;
+	mrb_value origin;
+	mrb_float rotation;
+	mrb_value tint;
+	mrb_get_args(mrb, "oooofo", &texture, &sourceRec, &destRec, &origin, &rotation, &tint);
+
+	DrawTexturePro(*(Texture2D*)DATA_PTR(texture), *(Rectangle*)DATA_PTR(sourceRec), *(Rectangle*)DATA_PTR(destRec), *(Vector2*)DATA_PTR(origin), rotation, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
 mrb_raylib_draw_text(mrb_state *mrb, mrb_value self)
 {
 	mrb_value text;
@@ -2817,6 +3168,217 @@ mrb_raylib_draw_text(mrb_state *mrb, mrb_value self)
 	mrb_get_args(mrb, "Siiio", &text, &posX, &posY, &fontSize, &color);
 
 	DrawText(RSTRING_PTR(text), posX, posY, fontSize, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_line3d(mrb_state *mrb, mrb_value self)
+{
+	mrb_value startPos;
+	mrb_value endPos;
+	mrb_value color;
+	mrb_get_args(mrb, "ooo", &startPos, &endPos, &color);
+
+	DrawLine3D(*(Vector3*)DATA_PTR(startPos), *(Vector3*)DATA_PTR(endPos), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_circle3d(mrb_state *mrb, mrb_value self)
+{
+	mrb_value center;
+	mrb_float radius;
+	mrb_value rotationAxis;
+	mrb_float rotationAngle;
+	mrb_value color;
+	mrb_get_args(mrb, "ofofo", &center, &radius, &rotationAxis, &rotationAngle, &color);
+
+	DrawCircle3D(*(Vector3*)DATA_PTR(center), radius, *(Vector3*)DATA_PTR(rotationAxis), rotationAngle, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cube(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_float width;
+	mrb_float height;
+	mrb_float length;
+	mrb_value color;
+	mrb_get_args(mrb, "offfo", &position, &width, &height, &length, &color);
+
+	DrawCube(*(Vector3*)DATA_PTR(position), width, height, length, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cube_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_value size;
+	mrb_value color;
+	mrb_get_args(mrb, "ooo", &position, &size, &color);
+
+	DrawCubeV(*(Vector3*)DATA_PTR(position), *(Vector3*)DATA_PTR(size), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cube_wires(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_float width;
+	mrb_float height;
+	mrb_float length;
+	mrb_value color;
+	mrb_get_args(mrb, "offfo", &position, &width, &height, &length, &color);
+
+	DrawCubeWires(*(Vector3*)DATA_PTR(position), width, height, length, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cube_wires_v(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_value size;
+	mrb_value color;
+	mrb_get_args(mrb, "ooo", &position, &size, &color);
+
+	DrawCubeWiresV(*(Vector3*)DATA_PTR(position), *(Vector3*)DATA_PTR(size), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cube_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value texture;
+	mrb_value position;
+	mrb_float width;
+	mrb_float height;
+	mrb_float length;
+	mrb_value color;
+	mrb_get_args(mrb, "oofffo", &texture, &position, &width, &height, &length, &color);
+
+	DrawCubeTexture(*(Texture2D*)DATA_PTR(texture), *(Vector3*)DATA_PTR(position), width, height, length, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_sphere(mrb_state *mrb, mrb_value self)
+{
+	mrb_value centerPos;
+	mrb_float radius;
+	mrb_value color;
+	mrb_get_args(mrb, "ofo", &centerPos, &radius, &color);
+
+	DrawSphere(*(Vector3*)DATA_PTR(centerPos), radius, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_sphere_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value centerPos;
+	mrb_float radius;
+	mrb_int rings;
+	mrb_int slices;
+	mrb_value color;
+	mrb_get_args(mrb, "ofiio", &centerPos, &radius, &rings, &slices, &color);
+
+	DrawSphereEx(*(Vector3*)DATA_PTR(centerPos), radius, rings, slices, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_sphere_wires(mrb_state *mrb, mrb_value self)
+{
+	mrb_value centerPos;
+	mrb_float radius;
+	mrb_int rings;
+	mrb_int slices;
+	mrb_value color;
+	mrb_get_args(mrb, "ofiio", &centerPos, &radius, &rings, &slices, &color);
+
+	DrawSphereWires(*(Vector3*)DATA_PTR(centerPos), radius, rings, slices, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cylinder(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_float radiusTop;
+	mrb_float radiusBottom;
+	mrb_float height;
+	mrb_int slices;
+	mrb_value color;
+	mrb_get_args(mrb, "offfio", &position, &radiusTop, &radiusBottom, &height, &slices, &color);
+
+	DrawCylinder(*(Vector3*)DATA_PTR(position), radiusTop, radiusBottom, height, slices, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_cylinder_wires(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_float radiusTop;
+	mrb_float radiusBottom;
+	mrb_float height;
+	mrb_int slices;
+	mrb_value color;
+	mrb_get_args(mrb, "offfio", &position, &radiusTop, &radiusBottom, &height, &slices, &color);
+
+	DrawCylinderWires(*(Vector3*)DATA_PTR(position), radiusTop, radiusBottom, height, slices, *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_plane(mrb_state *mrb, mrb_value self)
+{
+	mrb_value centerPos;
+	mrb_value size;
+	mrb_value color;
+	mrb_get_args(mrb, "ooo", &centerPos, &size, &color);
+
+	DrawPlane(*(Vector3*)DATA_PTR(centerPos), *(Vector2*)DATA_PTR(size), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_grid(mrb_state *mrb, mrb_value self)
+{
+	mrb_int slices;
+	mrb_float spacing;
+	mrb_get_args(mrb, "if", &slices, &spacing);
+
+	DrawGrid(slices, spacing);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_gizmo(mrb_state *mrb, mrb_value self)
+{
+	mrb_value position;
+	mrb_get_args(mrb, "o", &position);
+
+	DrawGizmo(*(Vector3*)DATA_PTR(position));
 
 	return self;
 }
@@ -2950,6 +3512,37 @@ void mrb_raylib_module_init(mrb_state *mrb)
 		mrb_define_method(mrb, cls, "format=", mrb_raylib_image_set_format, MRB_ARGS_REQ(1));
 	}
 
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Texture2D", mrb->object_class);
+		mrb_cls_raylib_texture2d = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_texture2d_initialize, MRB_ARGS_NONE());
+		mrb_define_method(mrb, cls, "width", mrb_raylib_texture2d_width, MRB_ARGS_NONE());
+		mrb_define_method(mrb, cls, "width=", mrb_raylib_texture2d_set_width, MRB_ARGS_REQ(1));
+		mrb_define_method(mrb, cls, "height", mrb_raylib_texture2d_height, MRB_ARGS_NONE());
+		mrb_define_method(mrb, cls, "height=", mrb_raylib_texture2d_set_height, MRB_ARGS_REQ(1));
+		mrb_define_method(mrb, cls, "mipmaps", mrb_raylib_texture2d_mipmaps, MRB_ARGS_NONE());
+		mrb_define_method(mrb, cls, "mipmaps=", mrb_raylib_texture2d_set_mipmaps, MRB_ARGS_REQ(1));
+		mrb_define_method(mrb, cls, "format", mrb_raylib_texture2d_format, MRB_ARGS_NONE());
+		mrb_define_method(mrb, cls, "format=", mrb_raylib_texture2d_set_format, MRB_ARGS_REQ(1));
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Camera3D", mrb->object_class);
+		mrb_cls_raylib_camera3d = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_camera3d_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Camera2D", mrb->object_class);
+		mrb_cls_raylib_camera2d = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_camera2d_initialize, MRB_ARGS_NONE());
+
+	}
+
 	mrb_define_module_function(mrb, mod_raylib, "init_window", mrb_raylib_init_window, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "window_should_close", mrb_raylib_window_should_close, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "close_window", mrb_raylib_close_window, MRB_ARGS_NONE());
@@ -2984,7 +3577,9 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "clear_background", mrb_raylib_clear_background, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "begin_drawing", mrb_raylib_begin_drawing, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "end_drawing", mrb_raylib_end_drawing, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_mode2d", mrb_raylib_begin_mode2d, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "end_mode2d", mrb_raylib_end_mode2d, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_mode3d", mrb_raylib_begin_mode3d, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "end_mode3d", mrb_raylib_end_mode3d, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "end_texture_mode", mrb_raylib_end_texture_mode, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "set_target_fps", mrb_raylib_set_target_fps, MRB_ARGS_REQ(1));
@@ -3084,6 +3679,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "draw_triangle", mrb_raylib_draw_triangle, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "draw_triangle_lines", mrb_raylib_draw_triangle_lines, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "draw_poly", mrb_raylib_draw_poly, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "set_shapes_texture", mrb_raylib_set_shapes_texture, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "check_collision_recs", mrb_raylib_check_collision_recs, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "check_collision_circles", mrb_raylib_check_collision_circles, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "check_collision_circle_rec", mrb_raylib_check_collision_circle_rec, MRB_ARGS_REQ(3));
@@ -3095,8 +3691,12 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "load_image_raw", mrb_raylib_load_image_raw, MRB_ARGS_REQ(5));
 	mrb_define_module_function(mrb, mod_raylib, "export_image", mrb_raylib_export_image, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "export_image_as_code", mrb_raylib_export_image_as_code, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "load_texture", mrb_raylib_load_texture, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_texture_from_image", mrb_raylib_load_texture_from_image, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "unload_image", mrb_raylib_unload_image, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "unload_texture", mrb_raylib_unload_texture, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_pixel_data_size", mrb_raylib_get_pixel_data_size, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "get_texture_data", mrb_raylib_get_texture_data, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_screen_data", mrb_raylib_get_screen_data, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "image_copy", mrb_raylib_image_copy, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "image_text", mrb_raylib_image_text, MRB_ARGS_REQ(3));
@@ -3108,6 +3708,27 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "gen_image_white_noise", mrb_raylib_gen_image_white_noise, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "gen_image_perlin_noise", mrb_raylib_gen_image_perlin_noise, MRB_ARGS_REQ(5));
 	mrb_define_module_function(mrb, mod_raylib, "gen_image_cellular", mrb_raylib_gen_image_cellular, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_texture", mrb_raylib_draw_texture, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_texture_v", mrb_raylib_draw_texture_v, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_texture_ex", mrb_raylib_draw_texture_ex, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_texture_rec", mrb_raylib_draw_texture_rec, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_texture_quad", mrb_raylib_draw_texture_quad, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_texture_pro", mrb_raylib_draw_texture_pro, MRB_ARGS_REQ(6));
 	mrb_define_module_function(mrb, mod_raylib, "draw_text", mrb_raylib_draw_text, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_line3d", mrb_raylib_draw_line3d, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_circle3d", mrb_raylib_draw_circle3d, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cube", mrb_raylib_draw_cube, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cube_v", mrb_raylib_draw_cube_v, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cube_wires", mrb_raylib_draw_cube_wires, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cube_wires_v", mrb_raylib_draw_cube_wires_v, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cube_texture", mrb_raylib_draw_cube_texture, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_sphere", mrb_raylib_draw_sphere, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_sphere_ex", mrb_raylib_draw_sphere_ex, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_sphere_wires", mrb_raylib_draw_sphere_wires, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cylinder", mrb_raylib_draw_cylinder, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_cylinder_wires", mrb_raylib_draw_cylinder_wires, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_plane", mrb_raylib_draw_plane, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_grid", mrb_raylib_draw_grid, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "draw_gizmo", mrb_raylib_draw_gizmo, MRB_ARGS_REQ(1));
 
 }

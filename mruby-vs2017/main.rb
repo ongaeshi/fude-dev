@@ -51,7 +51,9 @@ window(800, 450, "Hello, raylib on mruby!") do
 
   x, y, font_size = 190, 200, 20
 
-  while !window_should_close do
+  texture = load_texture("ruby-logo.png")
+
+  until window_should_close do
     x -= 1 if is_mouse_button_down(0)
 	x += 1 if is_mouse_button_down(1)
 	open_url("https://github.com/raysan5/raylib") if is_mouse_button_pressed(2)
@@ -62,6 +64,9 @@ window(800, 450, "Hello, raylib on mruby!") do
 
     draw do
 	  clear_background(RAYWHITE)
+
+	  draw_texture(texture, 0, 300, WHITE)
+	  draw_texture_ex(texture, Vector2.new_a([0, 100]), 0, 0.5, WHITE)
 
 	  (0..100).each do |e|
   	    draw_pixel(e * 10, 100, LIGHTGRAY)
@@ -74,6 +79,25 @@ window(800, 450, "Hello, raylib on mruby!") do
 	  draw_text("FPS: #{get_fps}", 0, 0, font_size, LIGHTGRAY)
 	  draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
 	  draw_text("Mouse #{v.x}, #{v.y}", x, y +100, font_size, LIGHTGRAY)
+
+	  mode3d(Camera3D.new) do
+        pos = Vector3.new
+    	pos.x, pos.y, pos.z = 0, 0, 0
+
+    	draw_cube(pos, 2, 2, 2, RED)
+
+    	draw_cube_wires(pos, 2, 2, 2, MAROON)
+
+    	pos.x, pos.y, pos.z = 4, 4, 4
+    	draw_cube_texture(texture, pos, 2, 2, 2, WHITE)
+
+    	draw_grid(10, 1)
+  	  end
+
+	  draw_text("Welcome to the third dimension!", 10, 40, 20, DARKGRAY)
+	  # draw_fps(10, 10)
 	end
   end
+
+  unload_texture(texture)
 end
