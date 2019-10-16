@@ -1050,6 +1050,142 @@ mrb_raylib_texture2d_set_format(mrb_state *mrb, mrb_value self)
 }
 
 
+static struct RClass *mrb_cls_raylib_rendertexture2d;
+const static struct mrb_data_type mrb_raylib_rendertexture2d_type = { "RenderTexture2D", mrb_free };
+
+static mrb_value
+mrb_raylib_rendertexture2d_to_mrb(mrb_state *mrb, RenderTexture2D src)
+{
+	RenderTexture2D *obj = (RenderTexture2D*)mrb_malloc(mrb, sizeof(RenderTexture2D));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_rendertexture2d,
+		obj,
+		&mrb_raylib_rendertexture2d_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_rendertexture2d_initialize(mrb_state *mrb, mrb_value self)
+{
+	RenderTexture2D *obj;
+
+	obj = (RenderTexture2D*)mrb_malloc(mrb, sizeof(RenderTexture2D));
+	memset(obj, 0, sizeof(RenderTexture2D));
+
+	DATA_TYPE(self) = &mrb_raylib_rendertexture2d_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_npatchinfo;
+const static struct mrb_data_type mrb_raylib_npatchinfo_type = { "NPatchInfo", mrb_free };
+
+static mrb_value
+mrb_raylib_npatchinfo_to_mrb(mrb_state *mrb, NPatchInfo src)
+{
+	NPatchInfo *obj = (NPatchInfo*)mrb_malloc(mrb, sizeof(NPatchInfo));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_npatchinfo,
+		obj,
+		&mrb_raylib_npatchinfo_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_npatchinfo_initialize(mrb_state *mrb, mrb_value self)
+{
+	NPatchInfo *obj;
+
+	obj = (NPatchInfo*)mrb_malloc(mrb, sizeof(NPatchInfo));
+	memset(obj, 0, sizeof(NPatchInfo));
+
+	DATA_TYPE(self) = &mrb_raylib_npatchinfo_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_charinfo;
+const static struct mrb_data_type mrb_raylib_charinfo_type = { "CharInfo", mrb_free };
+
+static mrb_value
+mrb_raylib_charinfo_to_mrb(mrb_state *mrb, CharInfo src)
+{
+	CharInfo *obj = (CharInfo*)mrb_malloc(mrb, sizeof(CharInfo));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_charinfo,
+		obj,
+		&mrb_raylib_charinfo_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_charinfo_initialize(mrb_state *mrb, mrb_value self)
+{
+	CharInfo *obj;
+
+	obj = (CharInfo*)mrb_malloc(mrb, sizeof(CharInfo));
+	memset(obj, 0, sizeof(CharInfo));
+
+	DATA_TYPE(self) = &mrb_raylib_charinfo_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_font;
+const static struct mrb_data_type mrb_raylib_font_type = { "Font", mrb_free };
+
+static mrb_value
+mrb_raylib_font_to_mrb(mrb_state *mrb, Font src)
+{
+	Font *obj = (Font*)mrb_malloc(mrb, sizeof(Font));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_font,
+		obj,
+		&mrb_raylib_font_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_font_initialize(mrb_state *mrb, mrb_value self)
+{
+	Font *obj;
+
+	obj = (Font*)mrb_malloc(mrb, sizeof(Font));
+	memset(obj, 0, sizeof(Font));
+
+	DATA_TYPE(self) = &mrb_raylib_font_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
 static struct RClass *mrb_cls_raylib_camera3d;
 const static struct mrb_data_type mrb_raylib_camera3d_type = { "Camera3D", mrb_free };
 
@@ -1112,6 +1248,550 @@ mrb_raylib_camera2d_initialize(mrb_state *mrb, mrb_value self)
 	memset(obj, 0, sizeof(Camera2D));
 
 	DATA_TYPE(self) = &mrb_raylib_camera2d_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_mesh;
+const static struct mrb_data_type mrb_raylib_mesh_type = { "Mesh", mrb_free };
+
+static mrb_value
+mrb_raylib_mesh_to_mrb(mrb_state *mrb, Mesh src)
+{
+	Mesh *obj = (Mesh*)mrb_malloc(mrb, sizeof(Mesh));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_mesh,
+		obj,
+		&mrb_raylib_mesh_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_mesh_initialize(mrb_state *mrb, mrb_value self)
+{
+	Mesh *obj;
+
+	obj = (Mesh*)mrb_malloc(mrb, sizeof(Mesh));
+	memset(obj, 0, sizeof(Mesh));
+
+	DATA_TYPE(self) = &mrb_raylib_mesh_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_shader;
+const static struct mrb_data_type mrb_raylib_shader_type = { "Shader", mrb_free };
+
+static mrb_value
+mrb_raylib_shader_to_mrb(mrb_state *mrb, Shader src)
+{
+	Shader *obj = (Shader*)mrb_malloc(mrb, sizeof(Shader));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_shader,
+		obj,
+		&mrb_raylib_shader_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_shader_initialize(mrb_state *mrb, mrb_value self)
+{
+	Shader *obj;
+
+	obj = (Shader*)mrb_malloc(mrb, sizeof(Shader));
+	memset(obj, 0, sizeof(Shader));
+
+	DATA_TYPE(self) = &mrb_raylib_shader_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_materialmap;
+const static struct mrb_data_type mrb_raylib_materialmap_type = { "MaterialMap", mrb_free };
+
+static mrb_value
+mrb_raylib_materialmap_to_mrb(mrb_state *mrb, MaterialMap src)
+{
+	MaterialMap *obj = (MaterialMap*)mrb_malloc(mrb, sizeof(MaterialMap));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_materialmap,
+		obj,
+		&mrb_raylib_materialmap_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_materialmap_initialize(mrb_state *mrb, mrb_value self)
+{
+	MaterialMap *obj;
+
+	obj = (MaterialMap*)mrb_malloc(mrb, sizeof(MaterialMap));
+	memset(obj, 0, sizeof(MaterialMap));
+
+	DATA_TYPE(self) = &mrb_raylib_materialmap_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_material;
+const static struct mrb_data_type mrb_raylib_material_type = { "Material", mrb_free };
+
+static mrb_value
+mrb_raylib_material_to_mrb(mrb_state *mrb, Material src)
+{
+	Material *obj = (Material*)mrb_malloc(mrb, sizeof(Material));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_material,
+		obj,
+		&mrb_raylib_material_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_material_initialize(mrb_state *mrb, mrb_value self)
+{
+	Material *obj;
+
+	obj = (Material*)mrb_malloc(mrb, sizeof(Material));
+	memset(obj, 0, sizeof(Material));
+
+	DATA_TYPE(self) = &mrb_raylib_material_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_model;
+const static struct mrb_data_type mrb_raylib_model_type = { "Model", mrb_free };
+
+static mrb_value
+mrb_raylib_model_to_mrb(mrb_state *mrb, Model src)
+{
+	Model *obj = (Model*)mrb_malloc(mrb, sizeof(Model));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_model,
+		obj,
+		&mrb_raylib_model_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_model_initialize(mrb_state *mrb, mrb_value self)
+{
+	Model *obj;
+
+	obj = (Model*)mrb_malloc(mrb, sizeof(Model));
+	memset(obj, 0, sizeof(Model));
+
+	DATA_TYPE(self) = &mrb_raylib_model_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_transform;
+const static struct mrb_data_type mrb_raylib_transform_type = { "Transform", mrb_free };
+
+static mrb_value
+mrb_raylib_transform_to_mrb(mrb_state *mrb, Transform src)
+{
+	Transform *obj = (Transform*)mrb_malloc(mrb, sizeof(Transform));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_transform,
+		obj,
+		&mrb_raylib_transform_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_transform_initialize(mrb_state *mrb, mrb_value self)
+{
+	Transform *obj;
+
+	obj = (Transform*)mrb_malloc(mrb, sizeof(Transform));
+	memset(obj, 0, sizeof(Transform));
+
+	DATA_TYPE(self) = &mrb_raylib_transform_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_boneinfo;
+const static struct mrb_data_type mrb_raylib_boneinfo_type = { "BoneInfo", mrb_free };
+
+static mrb_value
+mrb_raylib_boneinfo_to_mrb(mrb_state *mrb, BoneInfo src)
+{
+	BoneInfo *obj = (BoneInfo*)mrb_malloc(mrb, sizeof(BoneInfo));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_boneinfo,
+		obj,
+		&mrb_raylib_boneinfo_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_boneinfo_initialize(mrb_state *mrb, mrb_value self)
+{
+	BoneInfo *obj;
+
+	obj = (BoneInfo*)mrb_malloc(mrb, sizeof(BoneInfo));
+	memset(obj, 0, sizeof(BoneInfo));
+
+	DATA_TYPE(self) = &mrb_raylib_boneinfo_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_modelanimation;
+const static struct mrb_data_type mrb_raylib_modelanimation_type = { "ModelAnimation", mrb_free };
+
+static mrb_value
+mrb_raylib_modelanimation_to_mrb(mrb_state *mrb, ModelAnimation src)
+{
+	ModelAnimation *obj = (ModelAnimation*)mrb_malloc(mrb, sizeof(ModelAnimation));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_modelanimation,
+		obj,
+		&mrb_raylib_modelanimation_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_modelanimation_initialize(mrb_state *mrb, mrb_value self)
+{
+	ModelAnimation *obj;
+
+	obj = (ModelAnimation*)mrb_malloc(mrb, sizeof(ModelAnimation));
+	memset(obj, 0, sizeof(ModelAnimation));
+
+	DATA_TYPE(self) = &mrb_raylib_modelanimation_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_ray;
+const static struct mrb_data_type mrb_raylib_ray_type = { "Ray", mrb_free };
+
+static mrb_value
+mrb_raylib_ray_to_mrb(mrb_state *mrb, Ray src)
+{
+	Ray *obj = (Ray*)mrb_malloc(mrb, sizeof(Ray));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_ray,
+		obj,
+		&mrb_raylib_ray_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_ray_initialize(mrb_state *mrb, mrb_value self)
+{
+	Ray *obj;
+
+	obj = (Ray*)mrb_malloc(mrb, sizeof(Ray));
+	memset(obj, 0, sizeof(Ray));
+
+	DATA_TYPE(self) = &mrb_raylib_ray_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_rayhitinfo;
+const static struct mrb_data_type mrb_raylib_rayhitinfo_type = { "RayHitInfo", mrb_free };
+
+static mrb_value
+mrb_raylib_rayhitinfo_to_mrb(mrb_state *mrb, RayHitInfo src)
+{
+	RayHitInfo *obj = (RayHitInfo*)mrb_malloc(mrb, sizeof(RayHitInfo));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_rayhitinfo,
+		obj,
+		&mrb_raylib_rayhitinfo_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_rayhitinfo_initialize(mrb_state *mrb, mrb_value self)
+{
+	RayHitInfo *obj;
+
+	obj = (RayHitInfo*)mrb_malloc(mrb, sizeof(RayHitInfo));
+	memset(obj, 0, sizeof(RayHitInfo));
+
+	DATA_TYPE(self) = &mrb_raylib_rayhitinfo_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_boundingbox;
+const static struct mrb_data_type mrb_raylib_boundingbox_type = { "BoundingBox", mrb_free };
+
+static mrb_value
+mrb_raylib_boundingbox_to_mrb(mrb_state *mrb, BoundingBox src)
+{
+	BoundingBox *obj = (BoundingBox*)mrb_malloc(mrb, sizeof(BoundingBox));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_boundingbox,
+		obj,
+		&mrb_raylib_boundingbox_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_boundingbox_initialize(mrb_state *mrb, mrb_value self)
+{
+	BoundingBox *obj;
+
+	obj = (BoundingBox*)mrb_malloc(mrb, sizeof(BoundingBox));
+	memset(obj, 0, sizeof(BoundingBox));
+
+	DATA_TYPE(self) = &mrb_raylib_boundingbox_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_wave;
+const static struct mrb_data_type mrb_raylib_wave_type = { "Wave", mrb_free };
+
+static mrb_value
+mrb_raylib_wave_to_mrb(mrb_state *mrb, Wave src)
+{
+	Wave *obj = (Wave*)mrb_malloc(mrb, sizeof(Wave));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_wave,
+		obj,
+		&mrb_raylib_wave_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_wave_initialize(mrb_state *mrb, mrb_value self)
+{
+	Wave *obj;
+
+	obj = (Wave*)mrb_malloc(mrb, sizeof(Wave));
+	memset(obj, 0, sizeof(Wave));
+
+	DATA_TYPE(self) = &mrb_raylib_wave_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_sound;
+const static struct mrb_data_type mrb_raylib_sound_type = { "Sound", mrb_free };
+
+static mrb_value
+mrb_raylib_sound_to_mrb(mrb_state *mrb, Sound src)
+{
+	Sound *obj = (Sound*)mrb_malloc(mrb, sizeof(Sound));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_sound,
+		obj,
+		&mrb_raylib_sound_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_sound_initialize(mrb_state *mrb, mrb_value self)
+{
+	Sound *obj;
+
+	obj = (Sound*)mrb_malloc(mrb, sizeof(Sound));
+	memset(obj, 0, sizeof(Sound));
+
+	DATA_TYPE(self) = &mrb_raylib_sound_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_music;
+const static struct mrb_data_type mrb_raylib_music_type = { "Music", mrb_free };
+
+static mrb_value
+mrb_raylib_music_to_mrb(mrb_state *mrb, Music src)
+{
+	Music *obj = (Music*)mrb_malloc(mrb, sizeof(Music));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_music,
+		obj,
+		&mrb_raylib_music_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_music_initialize(mrb_state *mrb, mrb_value self)
+{
+	Music *obj;
+
+	obj = (Music*)mrb_malloc(mrb, sizeof(Music));
+	memset(obj, 0, sizeof(Music));
+
+	DATA_TYPE(self) = &mrb_raylib_music_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_audiostream;
+const static struct mrb_data_type mrb_raylib_audiostream_type = { "AudioStream", mrb_free };
+
+static mrb_value
+mrb_raylib_audiostream_to_mrb(mrb_state *mrb, AudioStream src)
+{
+	AudioStream *obj = (AudioStream*)mrb_malloc(mrb, sizeof(AudioStream));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_audiostream,
+		obj,
+		&mrb_raylib_audiostream_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_audiostream_initialize(mrb_state *mrb, mrb_value self)
+{
+	AudioStream *obj;
+
+	obj = (AudioStream*)mrb_malloc(mrb, sizeof(AudioStream));
+	memset(obj, 0, sizeof(AudioStream));
+
+	DATA_TYPE(self) = &mrb_raylib_audiostream_type;
+	DATA_PTR(self) = obj;
+	return self;
+}
+
+
+
+static struct RClass *mrb_cls_raylib_vrdeviceinfo;
+const static struct mrb_data_type mrb_raylib_vrdeviceinfo_type = { "VrDeviceInfo", mrb_free };
+
+static mrb_value
+mrb_raylib_vrdeviceinfo_to_mrb(mrb_state *mrb, VrDeviceInfo src)
+{
+	VrDeviceInfo *obj = (VrDeviceInfo*)mrb_malloc(mrb, sizeof(VrDeviceInfo));
+	*obj = src;
+
+	struct RData *data = mrb_data_object_alloc(
+		mrb,
+		mrb_cls_raylib_vrdeviceinfo,
+		obj,
+		&mrb_raylib_vrdeviceinfo_type
+	);
+
+	return mrb_obj_value(data);
+}
+
+static mrb_value
+mrb_raylib_vrdeviceinfo_initialize(mrb_state *mrb, mrb_value self)
+{
+	VrDeviceInfo *obj;
+
+	obj = (VrDeviceInfo*)mrb_malloc(mrb, sizeof(VrDeviceInfo));
+	memset(obj, 0, sizeof(VrDeviceInfo));
+
+	DATA_TYPE(self) = &mrb_raylib_vrdeviceinfo_type;
 	DATA_PTR(self) = obj;
 	return self;
 }
@@ -3158,6 +3838,63 @@ mrb_raylib_draw_texture_pro(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_get_font_default(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_font_to_mrb(mrb, GetFontDefault());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_font(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_font_to_mrb(mrb, LoadFont(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_font_from_image(mrb_state *mrb, mrb_value self)
+{
+	mrb_value image;
+	mrb_value key;
+	mrb_int firstChar;
+	mrb_get_args(mrb, "ooi", &image, &key, &firstChar);
+
+	mrb_value ret = mrb_raylib_font_to_mrb(mrb, LoadFontFromImage(*(Image*)DATA_PTR(image), *(Color*)DATA_PTR(key), firstChar));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_unload_font(mrb_state *mrb, mrb_value self)
+{
+	mrb_value font;
+	mrb_get_args(mrb, "o", &font);
+
+	UnloadFont(*(Font*)DATA_PTR(font));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_fps(mrb_state *mrb, mrb_value self)
+{
+	mrb_int posX;
+	mrb_int posY;
+	mrb_get_args(mrb, "ii", &posX, &posY);
+
+	DrawFPS(posX, posY);
+
+	return self;
+}
+
+static mrb_value
 mrb_raylib_draw_text(mrb_state *mrb, mrb_value self)
 {
 	mrb_value text;
@@ -3170,6 +3907,190 @@ mrb_raylib_draw_text(mrb_state *mrb, mrb_value self)
 	DrawText(RSTRING_PTR(text), posX, posY, fontSize, *(Color*)DATA_PTR(color));
 
 	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_text_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value font;
+	mrb_value text;
+	mrb_value position;
+	mrb_float fontSize;
+	mrb_float spacing;
+	mrb_value tint;
+	mrb_get_args(mrb, "oSoffo", &font, &text, &position, &fontSize, &spacing, &tint);
+
+	DrawTextEx(*(Font*)DATA_PTR(font), RSTRING_PTR(text), *(Vector2*)DATA_PTR(position), fontSize, spacing, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_text_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value font;
+	mrb_value text;
+	mrb_value rec;
+	mrb_float fontSize;
+	mrb_float spacing;
+	mrb_bool wordWrap;
+	mrb_value tint;
+	mrb_get_args(mrb, "oSoffbo", &font, &text, &rec, &fontSize, &spacing, &wordWrap, &tint);
+
+	DrawTextRec(*(Font*)DATA_PTR(font), RSTRING_PTR(text), *(Rectangle*)DATA_PTR(rec), fontSize, spacing, wordWrap, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_text_rec_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value font;
+	mrb_value text;
+	mrb_value rec;
+	mrb_float fontSize;
+	mrb_float spacing;
+	mrb_bool wordWrap;
+	mrb_value tint;
+	mrb_int selectStart;
+	mrb_int selectLength;
+	mrb_value selectText;
+	mrb_value selectBack;
+	mrb_get_args(mrb, "oSoffboiioo", &font, &text, &rec, &fontSize, &spacing, &wordWrap, &tint, &selectStart, &selectLength, &selectText, &selectBack);
+
+	DrawTextRecEx(*(Font*)DATA_PTR(font), RSTRING_PTR(text), *(Rectangle*)DATA_PTR(rec), fontSize, spacing, wordWrap, *(Color*)DATA_PTR(tint), selectStart, selectLength, *(Color*)DATA_PTR(selectText), *(Color*)DATA_PTR(selectBack));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_measure_text(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_int fontSize;
+	mrb_get_args(mrb, "Si", &text, &fontSize);
+
+	mrb_value ret = mrb_fixnum_value(MeasureText(RSTRING_PTR(text), fontSize));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_measure_text_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value font;
+	mrb_value text;
+	mrb_float fontSize;
+	mrb_float spacing;
+	mrb_get_args(mrb, "oSff", &font, &text, &fontSize, &spacing);
+
+	mrb_value ret = mrb_raylib_vector2_to_mrb(mrb, MeasureTextEx(*(Font*)DATA_PTR(font), RSTRING_PTR(text), fontSize, spacing));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_glyph_index(mrb_state *mrb, mrb_value self)
+{
+	mrb_value font;
+	mrb_int character;
+	mrb_get_args(mrb, "oi", &font, &character);
+
+	mrb_value ret = mrb_fixnum_value(GetGlyphIndex(*(Font*)DATA_PTR(font), character));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_is_equal(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text1;
+	mrb_value text2;
+	mrb_get_args(mrb, "SS", &text1, &text2);
+
+	mrb_value ret = mrb_bool_value(TextIsEqual(RSTRING_PTR(text1), RSTRING_PTR(text2)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_length(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_get_args(mrb, "S", &text);
+
+	mrb_value ret = mrb_fixnum_value(TextLength(RSTRING_PTR(text)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_subtext(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_int position;
+	mrb_int length;
+	mrb_get_args(mrb, "Sii", &text, &position, &length);
+
+	mrb_value ret = mrb_str_new_cstr(mrb, TextSubtext(RSTRING_PTR(text), position, length));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_find_index(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_value find;
+	mrb_get_args(mrb, "SS", &text, &find);
+
+	mrb_value ret = mrb_fixnum_value(TextFindIndex(RSTRING_PTR(text), RSTRING_PTR(find)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_to_upper(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_get_args(mrb, "S", &text);
+
+	mrb_value ret = mrb_str_new_cstr(mrb, TextToUpper(RSTRING_PTR(text)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_to_lower(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_get_args(mrb, "S", &text);
+
+	mrb_value ret = mrb_str_new_cstr(mrb, TextToLower(RSTRING_PTR(text)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_to_pascal(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_get_args(mrb, "S", &text);
+
+	mrb_value ret = mrb_str_new_cstr(mrb, TextToPascal(RSTRING_PTR(text)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_text_to_integer(mrb_state *mrb, mrb_value self)
+{
+	mrb_value text;
+	mrb_get_args(mrb, "S", &text);
+
+	mrb_value ret = mrb_fixnum_value(TextToInteger(RSTRING_PTR(text)));
+
+	return ret;
 }
 
 static mrb_value
@@ -3383,6 +4304,727 @@ mrb_raylib_draw_gizmo(mrb_state *mrb, mrb_value self)
 	return self;
 }
 
+static mrb_value
+mrb_raylib_load_shader(mrb_state *mrb, mrb_value self)
+{
+	mrb_value vsFileName;
+	mrb_value fsFileName;
+	mrb_get_args(mrb, "SS", &vsFileName, &fsFileName);
+
+	mrb_value ret = mrb_raylib_shader_to_mrb(mrb, LoadShader(RSTRING_PTR(vsFileName), RSTRING_PTR(fsFileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_unload_shader(mrb_state *mrb, mrb_value self)
+{
+	mrb_value shader;
+	mrb_get_args(mrb, "o", &shader);
+
+	UnloadShader(*(Shader*)DATA_PTR(shader));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_get_shader_default(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_shader_to_mrb(mrb, GetShaderDefault());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_texture_default(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_texture2d_to_mrb(mrb, GetTextureDefault());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_shader_location(mrb_state *mrb, mrb_value self)
+{
+	mrb_value shader;
+	mrb_value uniformName;
+	mrb_get_args(mrb, "oS", &shader, &uniformName);
+
+	mrb_value ret = mrb_fixnum_value(GetShaderLocation(*(Shader*)DATA_PTR(shader), RSTRING_PTR(uniformName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_set_shader_value_matrix(mrb_state *mrb, mrb_value self)
+{
+	mrb_value shader;
+	mrb_int uniformLoc;
+	mrb_value mat;
+	mrb_get_args(mrb, "oio", &shader, &uniformLoc, &mat);
+
+	SetShaderValueMatrix(*(Shader*)DATA_PTR(shader), uniformLoc, *(Matrix*)DATA_PTR(mat));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_shader_value_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value shader;
+	mrb_int uniformLoc;
+	mrb_value texture;
+	mrb_get_args(mrb, "oio", &shader, &uniformLoc, &texture);
+
+	SetShaderValueTexture(*(Shader*)DATA_PTR(shader), uniformLoc, *(Texture2D*)DATA_PTR(texture));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_matrix_projection(mrb_state *mrb, mrb_value self)
+{
+	mrb_value proj;
+	mrb_get_args(mrb, "o", &proj);
+
+	SetMatrixProjection(*(Matrix*)DATA_PTR(proj));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_matrix_modelview(mrb_state *mrb, mrb_value self)
+{
+	mrb_value view;
+	mrb_get_args(mrb, "o", &view);
+
+	SetMatrixModelview(*(Matrix*)DATA_PTR(view));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_get_matrix_modelview(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_matrix_to_mrb(mrb, GetMatrixModelview());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_begin_shader_mode(mrb_state *mrb, mrb_value self)
+{
+	mrb_value shader;
+	mrb_get_args(mrb, "o", &shader);
+
+	BeginShaderMode(*(Shader*)DATA_PTR(shader));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_end_shader_mode(mrb_state *mrb, mrb_value self)
+{
+
+
+	EndShaderMode();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_begin_blend_mode(mrb_state *mrb, mrb_value self)
+{
+	mrb_int mode;
+	mrb_get_args(mrb, "i", &mode);
+
+	BeginBlendMode(mode);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_end_blend_mode(mrb_state *mrb, mrb_value self)
+{
+
+
+	EndBlendMode();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_begin_scissor_mode(mrb_state *mrb, mrb_value self)
+{
+	mrb_int x;
+	mrb_int y;
+	mrb_int width;
+	mrb_int height;
+	mrb_get_args(mrb, "iiii", &x, &y, &width, &height);
+
+	BeginScissorMode(x, y, width, height);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_end_scissor_mode(mrb_state *mrb, mrb_value self)
+{
+
+
+	EndScissorMode();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_init_vr_simulator(mrb_state *mrb, mrb_value self)
+{
+
+
+	InitVrSimulator();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_close_vr_simulator(mrb_state *mrb, mrb_value self)
+{
+
+
+	CloseVrSimulator();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_vr_configuration(mrb_state *mrb, mrb_value self)
+{
+	mrb_value info;
+	mrb_value distortion;
+	mrb_get_args(mrb, "oo", &info, &distortion);
+
+	SetVrConfiguration(*(VrDeviceInfo*)DATA_PTR(info), *(Shader*)DATA_PTR(distortion));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_vr_simulator_ready(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_bool_value(IsVrSimulatorReady());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_toggle_vr_mode(mrb_state *mrb, mrb_value self)
+{
+
+
+	ToggleVrMode();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_begin_vr_drawing(mrb_state *mrb, mrb_value self)
+{
+
+
+	BeginVrDrawing();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_end_vr_drawing(mrb_state *mrb, mrb_value self)
+{
+
+
+	EndVrDrawing();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_init_audio_device(mrb_state *mrb, mrb_value self)
+{
+
+
+	InitAudioDevice();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_close_audio_device(mrb_state *mrb, mrb_value self)
+{
+
+
+	CloseAudioDevice();
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_audio_device_ready(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_bool_value(IsAudioDeviceReady());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_set_master_volume(mrb_state *mrb, mrb_value self)
+{
+	mrb_float volume;
+	mrb_get_args(mrb, "f", &volume);
+
+	SetMasterVolume(volume);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_load_wave(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_wave_to_mrb(mrb, LoadWave(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_sound(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_sound_to_mrb(mrb, LoadSound(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_sound_from_wave(mrb_state *mrb, mrb_value self)
+{
+	mrb_value wave;
+	mrb_get_args(mrb, "o", &wave);
+
+	mrb_value ret = mrb_raylib_sound_to_mrb(mrb, LoadSoundFromWave(*(Wave*)DATA_PTR(wave)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_unload_wave(mrb_state *mrb, mrb_value self)
+{
+	mrb_value wave;
+	mrb_get_args(mrb, "o", &wave);
+
+	UnloadWave(*(Wave*)DATA_PTR(wave));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_unload_sound(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_get_args(mrb, "o", &sound);
+
+	UnloadSound(*(Sound*)DATA_PTR(sound));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_export_wave(mrb_state *mrb, mrb_value self)
+{
+	mrb_value wave;
+	mrb_value fileName;
+	mrb_get_args(mrb, "oS", &wave, &fileName);
+
+	ExportWave(*(Wave*)DATA_PTR(wave), RSTRING_PTR(fileName));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_export_wave_as_code(mrb_state *mrb, mrb_value self)
+{
+	mrb_value wave;
+	mrb_value fileName;
+	mrb_get_args(mrb, "oS", &wave, &fileName);
+
+	ExportWaveAsCode(*(Wave*)DATA_PTR(wave), RSTRING_PTR(fileName));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_play_sound(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_get_args(mrb, "o", &sound);
+
+	PlaySound(*(Sound*)DATA_PTR(sound));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_pause_sound(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_get_args(mrb, "o", &sound);
+
+	PauseSound(*(Sound*)DATA_PTR(sound));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_resume_sound(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_get_args(mrb, "o", &sound);
+
+	ResumeSound(*(Sound*)DATA_PTR(sound));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_stop_sound(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_get_args(mrb, "o", &sound);
+
+	StopSound(*(Sound*)DATA_PTR(sound));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_sound_playing(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_get_args(mrb, "o", &sound);
+
+	mrb_value ret = mrb_bool_value(IsSoundPlaying(*(Sound*)DATA_PTR(sound)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_set_sound_volume(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_float volume;
+	mrb_get_args(mrb, "of", &sound, &volume);
+
+	SetSoundVolume(*(Sound*)DATA_PTR(sound), volume);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_sound_pitch(mrb_state *mrb, mrb_value self)
+{
+	mrb_value sound;
+	mrb_float pitch;
+	mrb_get_args(mrb, "of", &sound, &pitch);
+
+	SetSoundPitch(*(Sound*)DATA_PTR(sound), pitch);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_wave_copy(mrb_state *mrb, mrb_value self)
+{
+	mrb_value wave;
+	mrb_get_args(mrb, "o", &wave);
+
+	mrb_value ret = mrb_raylib_wave_to_mrb(mrb, WaveCopy(*(Wave*)DATA_PTR(wave)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_music_to_mrb(mrb, LoadMusicStream(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_unload_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	UnloadMusicStream(*(Music*)DATA_PTR(music));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_play_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	PlayMusicStream(*(Music*)DATA_PTR(music));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_update_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	UpdateMusicStream(*(Music*)DATA_PTR(music));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_stop_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	StopMusicStream(*(Music*)DATA_PTR(music));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_pause_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	PauseMusicStream(*(Music*)DATA_PTR(music));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_resume_music_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	ResumeMusicStream(*(Music*)DATA_PTR(music));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_music_playing(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	mrb_value ret = mrb_bool_value(IsMusicPlaying(*(Music*)DATA_PTR(music)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_set_music_volume(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_float volume;
+	mrb_get_args(mrb, "of", &music, &volume);
+
+	SetMusicVolume(*(Music*)DATA_PTR(music), volume);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_music_pitch(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_float pitch;
+	mrb_get_args(mrb, "of", &music, &pitch);
+
+	SetMusicPitch(*(Music*)DATA_PTR(music), pitch);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_music_loop_count(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_int count;
+	mrb_get_args(mrb, "oi", &music, &count);
+
+	SetMusicLoopCount(*(Music*)DATA_PTR(music), count);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_get_music_time_length(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	mrb_value ret = mrb_float_value(mrb, GetMusicTimeLength(*(Music*)DATA_PTR(music)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_music_time_played(mrb_state *mrb, mrb_value self)
+{
+	mrb_value music;
+	mrb_get_args(mrb, "o", &music);
+
+	mrb_value ret = mrb_float_value(mrb, GetMusicTimePlayed(*(Music*)DATA_PTR(music)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_init_audio_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_int sampleRate;
+	mrb_int sampleSize;
+	mrb_int channels;
+	mrb_get_args(mrb, "iii", &sampleRate, &sampleSize, &channels);
+
+	mrb_value ret = mrb_raylib_audiostream_to_mrb(mrb, InitAudioStream(sampleRate, sampleSize, channels));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_close_audio_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	CloseAudioStream(*(AudioStream*)DATA_PTR(stream));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_audio_buffer_processed(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	mrb_value ret = mrb_bool_value(IsAudioBufferProcessed(*(AudioStream*)DATA_PTR(stream)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_play_audio_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	PlayAudioStream(*(AudioStream*)DATA_PTR(stream));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_pause_audio_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	PauseAudioStream(*(AudioStream*)DATA_PTR(stream));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_resume_audio_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	ResumeAudioStream(*(AudioStream*)DATA_PTR(stream));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_audio_stream_playing(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	mrb_value ret = mrb_bool_value(IsAudioStreamPlaying(*(AudioStream*)DATA_PTR(stream)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_stop_audio_stream(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_get_args(mrb, "o", &stream);
+
+	StopAudioStream(*(AudioStream*)DATA_PTR(stream));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_audio_stream_volume(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_float volume;
+	mrb_get_args(mrb, "of", &stream, &volume);
+
+	SetAudioStreamVolume(*(AudioStream*)DATA_PTR(stream), volume);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_audio_stream_pitch(mrb_state *mrb, mrb_value self)
+{
+	mrb_value stream;
+	mrb_float pitch;
+	mrb_get_args(mrb, "of", &stream, &pitch);
+
+	SetAudioStreamPitch(*(AudioStream*)DATA_PTR(stream), pitch);
+
+	return self;
+}
+
 
 void mrb_raylib_module_init(mrb_state *mrb)
 {
@@ -3528,6 +5170,38 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	}
 
 	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "RenderTexture2D", mrb->object_class);
+		mrb_cls_raylib_rendertexture2d = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_rendertexture2d_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "NPatchInfo", mrb->object_class);
+		mrb_cls_raylib_npatchinfo = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_npatchinfo_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "CharInfo", mrb->object_class);
+		mrb_cls_raylib_charinfo = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_charinfo_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Font", mrb->object_class);
+		mrb_cls_raylib_font = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_font_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
 		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Camera3D", mrb->object_class);
 		mrb_cls_raylib_camera3d = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
@@ -3540,6 +5214,134 @@ void mrb_raylib_module_init(mrb_state *mrb)
 		mrb_cls_raylib_camera2d = cls;
 		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
 		mrb_define_method(mrb, cls, "initialize", mrb_raylib_camera2d_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Mesh", mrb->object_class);
+		mrb_cls_raylib_mesh = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_mesh_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Shader", mrb->object_class);
+		mrb_cls_raylib_shader = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_shader_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "MaterialMap", mrb->object_class);
+		mrb_cls_raylib_materialmap = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_materialmap_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Material", mrb->object_class);
+		mrb_cls_raylib_material = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_material_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Model", mrb->object_class);
+		mrb_cls_raylib_model = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_model_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Transform", mrb->object_class);
+		mrb_cls_raylib_transform = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_transform_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "BoneInfo", mrb->object_class);
+		mrb_cls_raylib_boneinfo = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_boneinfo_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "ModelAnimation", mrb->object_class);
+		mrb_cls_raylib_modelanimation = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_modelanimation_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Ray", mrb->object_class);
+		mrb_cls_raylib_ray = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_ray_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "RayHitInfo", mrb->object_class);
+		mrb_cls_raylib_rayhitinfo = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_rayhitinfo_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "BoundingBox", mrb->object_class);
+		mrb_cls_raylib_boundingbox = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_boundingbox_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Wave", mrb->object_class);
+		mrb_cls_raylib_wave = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_wave_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Sound", mrb->object_class);
+		mrb_cls_raylib_sound = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_sound_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "Music", mrb->object_class);
+		mrb_cls_raylib_music = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_music_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "AudioStream", mrb->object_class);
+		mrb_cls_raylib_audiostream = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_audiostream_initialize, MRB_ARGS_NONE());
+
+	}
+
+	{
+		struct RClass *cls = mrb_define_class_under(mrb, mod_raylib, "VrDeviceInfo", mrb->object_class);
+		mrb_cls_raylib_vrdeviceinfo = cls;
+		MRB_SET_INSTANCE_TT(cls, MRB_TT_DATA);
+		mrb_define_method(mrb, cls, "initialize", mrb_raylib_vrdeviceinfo_initialize, MRB_ARGS_NONE());
 
 	}
 
@@ -3714,7 +5516,26 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "draw_texture_rec", mrb_raylib_draw_texture_rec, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "draw_texture_quad", mrb_raylib_draw_texture_quad, MRB_ARGS_REQ(5));
 	mrb_define_module_function(mrb, mod_raylib, "draw_texture_pro", mrb_raylib_draw_texture_pro, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "get_font_default", mrb_raylib_get_font_default, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "load_font", mrb_raylib_load_font, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_font_from_image", mrb_raylib_load_font_from_image, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "unload_font", mrb_raylib_unload_font, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "draw_fps", mrb_raylib_draw_fps, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "draw_text", mrb_raylib_draw_text, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_text_ex", mrb_raylib_draw_text_ex, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_text_rec", mrb_raylib_draw_text_rec, MRB_ARGS_REQ(7));
+	mrb_define_module_function(mrb, mod_raylib, "draw_text_rec_ex", mrb_raylib_draw_text_rec_ex, MRB_ARGS_REQ(11));
+	mrb_define_module_function(mrb, mod_raylib, "measure_text", mrb_raylib_measure_text, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "measure_text_ex", mrb_raylib_measure_text_ex, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "get_glyph_index", mrb_raylib_get_glyph_index, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "text_is_equal", mrb_raylib_text_is_equal, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "text_length", mrb_raylib_text_length, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "text_subtext", mrb_raylib_text_subtext, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "text_find_index", mrb_raylib_text_find_index, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "text_to_upper", mrb_raylib_text_to_upper, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "text_to_lower", mrb_raylib_text_to_lower, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "text_to_pascal", mrb_raylib_text_to_pascal, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "text_to_integer", mrb_raylib_text_to_integer, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "draw_line3d", mrb_raylib_draw_line3d, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "draw_circle3d", mrb_raylib_draw_circle3d, MRB_ARGS_REQ(5));
 	mrb_define_module_function(mrb, mod_raylib, "draw_cube", mrb_raylib_draw_cube, MRB_ARGS_REQ(5));
@@ -3730,5 +5551,70 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "draw_plane", mrb_raylib_draw_plane, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "draw_grid", mrb_raylib_draw_grid, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "draw_gizmo", mrb_raylib_draw_gizmo, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_shader", mrb_raylib_load_shader, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "unload_shader", mrb_raylib_unload_shader, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "get_shader_default", mrb_raylib_get_shader_default, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_texture_default", mrb_raylib_get_texture_default, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_shader_location", mrb_raylib_get_shader_location, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "set_shader_value_matrix", mrb_raylib_set_shader_value_matrix, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "set_shader_value_texture", mrb_raylib_set_shader_value_texture, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "set_matrix_projection", mrb_raylib_set_matrix_projection, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "set_matrix_modelview", mrb_raylib_set_matrix_modelview, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "get_matrix_modelview", mrb_raylib_get_matrix_modelview, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_shader_mode", mrb_raylib_begin_shader_mode, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "end_shader_mode", mrb_raylib_end_shader_mode, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_blend_mode", mrb_raylib_begin_blend_mode, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "end_blend_mode", mrb_raylib_end_blend_mode, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_scissor_mode", mrb_raylib_begin_scissor_mode, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "end_scissor_mode", mrb_raylib_end_scissor_mode, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "init_vr_simulator", mrb_raylib_init_vr_simulator, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "close_vr_simulator", mrb_raylib_close_vr_simulator, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "set_vr_configuration", mrb_raylib_set_vr_configuration, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "is_vr_simulator_ready", mrb_raylib_is_vr_simulator_ready, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "toggle_vr_mode", mrb_raylib_toggle_vr_mode, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_vr_drawing", mrb_raylib_begin_vr_drawing, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "end_vr_drawing", mrb_raylib_end_vr_drawing, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "init_audio_device", mrb_raylib_init_audio_device, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "close_audio_device", mrb_raylib_close_audio_device, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "is_audio_device_ready", mrb_raylib_is_audio_device_ready, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "set_master_volume", mrb_raylib_set_master_volume, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_wave", mrb_raylib_load_wave, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_sound", mrb_raylib_load_sound, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_sound_from_wave", mrb_raylib_load_sound_from_wave, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "unload_wave", mrb_raylib_unload_wave, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "unload_sound", mrb_raylib_unload_sound, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "export_wave", mrb_raylib_export_wave, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "export_wave_as_code", mrb_raylib_export_wave_as_code, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "play_sound", mrb_raylib_play_sound, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "pause_sound", mrb_raylib_pause_sound, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "resume_sound", mrb_raylib_resume_sound, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "stop_sound", mrb_raylib_stop_sound, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "is_sound_playing", mrb_raylib_is_sound_playing, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "set_sound_volume", mrb_raylib_set_sound_volume, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "set_sound_pitch", mrb_raylib_set_sound_pitch, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "wave_copy", mrb_raylib_wave_copy, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_music_stream", mrb_raylib_load_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "unload_music_stream", mrb_raylib_unload_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "play_music_stream", mrb_raylib_play_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "update_music_stream", mrb_raylib_update_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "stop_music_stream", mrb_raylib_stop_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "pause_music_stream", mrb_raylib_pause_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "resume_music_stream", mrb_raylib_resume_music_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "is_music_playing", mrb_raylib_is_music_playing, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "set_music_volume", mrb_raylib_set_music_volume, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "set_music_pitch", mrb_raylib_set_music_pitch, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "set_music_loop_count", mrb_raylib_set_music_loop_count, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "get_music_time_length", mrb_raylib_get_music_time_length, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "get_music_time_played", mrb_raylib_get_music_time_played, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "init_audio_stream", mrb_raylib_init_audio_stream, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "close_audio_stream", mrb_raylib_close_audio_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "is_audio_buffer_processed", mrb_raylib_is_audio_buffer_processed, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "play_audio_stream", mrb_raylib_play_audio_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "pause_audio_stream", mrb_raylib_pause_audio_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "resume_audio_stream", mrb_raylib_resume_audio_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "is_audio_stream_playing", mrb_raylib_is_audio_stream_playing, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "stop_audio_stream", mrb_raylib_stop_audio_stream, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "set_audio_stream_volume", mrb_raylib_set_audio_stream_volume, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "set_audio_stream_pitch", mrb_raylib_set_audio_stream_pitch, MRB_ARGS_REQ(2));
 
 }
