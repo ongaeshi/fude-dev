@@ -2864,16 +2864,7 @@ mrb_raylib_begin_mode3d(mrb_state *mrb, mrb_value self)
 	mrb_value camera;
 	mrb_get_args(mrb, "o", &camera);
 
-	// Define the camera to look into our 3d world
-	Camera3D cam = { 0 };
-	cam.position = (Vector3) { 0.0f, 10.0f, 10.0f };  // Camera position
-	cam.target = (Vector3) { 0.0f, 0.0f, 0.0f };      // Camera looking at point
-	cam.up = (Vector3) { 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
-	cam.fovy = 45.0f;                                // Camera field-of-view Y
-	cam.type = CAMERA_PERSPECTIVE;                   // Camera mode type
-
-	//BeginMode3D(*(Camera3D*)DATA_PTR(camera));
-	BeginMode3D(cam);
+	BeginMode3D(*(Camera3D*)DATA_PTR(camera));
 
 	return self;
 }

@@ -43,6 +43,28 @@ def draw_circle_sector2(center, radius, start_angle, end_angle, segments, color)
   draw_circle_sector(Vector2.new_a(center), radius, start_angle, end_angle, segments, color)
 end
 
+class Vector3
+  def self.init(x, y, z)
+    v = Vector3.new
+	v.x = x
+	v.y = y
+	v.z = z
+	v
+  end
+end
+
+class Camera3D
+  def self.init(position, target, up, fovy, type)
+    o = Camera3D.new
+	o.position = position
+	o.target = target
+	o.up = up
+	o.fovy = fovy
+	o.type = type
+	o
+  end
+end
+
 p get_color 0x111
 # p get_color 0xffffffff
 
@@ -80,7 +102,16 @@ window(800, 450, "Hello, raylib on mruby!") do
 	  draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
 	  draw_text("Mouse #{v.x}, #{v.y}", x, y +100, font_size, LIGHTGRAY)
 
-	  mode3d(Camera3D.new) do
+	  cx = (190 - x) * 0.05
+	  camera = Camera3D.init(
+		Vector3.init(cx, 30 - font_size, 30 - font_size), # position
+		Vector3.init(cx, 0, 0),   # target
+		Vector3.init(0, 1, 0),   # up
+		45,                      # fovy
+		0,                       # type(CAMERA_PERSPECTIVE)
+		)
+
+	  mode3d(camera) do
         pos = Vector3.new
     	pos.x, pos.y, pos.z = 0, 0, 0
 
