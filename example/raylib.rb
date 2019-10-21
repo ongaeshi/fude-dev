@@ -293,6 +293,11 @@ module Raylib
   RED       = Color.init(230, 41, 55, 255)
   MAROON    = Color.init(190, 33, 55, 255)
 
+  KEY_RIGHT           = 262
+  KEY_LEFT            = 263
+  KEY_DOWN            = 264
+  KEY_UP              = 265
+
   def window(x, y, title)
     init_window(x, y, title)
     yield
