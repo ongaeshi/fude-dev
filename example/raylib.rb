@@ -4,6 +4,7 @@ module Raylib
       o = Vector2.new
       o.x = x
       o.y = y
+      o
     end
   end
   
@@ -13,6 +14,7 @@ module Raylib
       o.x = x
       o.y = y
       o.z = z
+      o
     end
   end
   
@@ -23,6 +25,7 @@ module Raylib
       o.y = y
       o.z = z
       o.w = w
+      o
     end
   end
   
@@ -45,6 +48,7 @@ module Raylib
       o.m7 = m7
       o.m11 = m11
       o.m15 = m15
+      o
     end
   end
   
@@ -55,6 +59,7 @@ module Raylib
       o.g = g
       o.b = b
       o.a = a
+      o
     end
   end
   
@@ -65,6 +70,7 @@ module Raylib
       o.y = y
       o.width = width
       o.height = height
+      o
     end
   end
   
@@ -75,6 +81,7 @@ module Raylib
       o.height = height
       o.mipmaps = mipmaps
       o.format = format
+      o
     end
   end
   
@@ -86,6 +93,7 @@ module Raylib
       o.height = height
       o.mipmaps = mipmaps
       o.format = format
+      o
     end
   end
   
@@ -96,6 +104,7 @@ module Raylib
       o.texture = texture
       o.depth = depth
       o.depthTexture = depthTexture
+      o
     end
   end
   
@@ -108,6 +117,7 @@ module Raylib
       o.right = right
       o.bottom = bottom
       o.type = type
+      o
     end
   end
   
@@ -119,6 +129,7 @@ module Raylib
       o.offsetX = offsetX
       o.offsetY = offsetY
       o.advanceX = advanceX
+      o
     end
   end
   
@@ -128,6 +139,7 @@ module Raylib
       o.texture = texture
       o.baseSize = baseSize
       o.charsCount = charsCount
+      o
     end
   end
   
@@ -139,6 +151,7 @@ module Raylib
       o.up = up
       o.fovy = fovy
       o.type = type
+      o
     end
   end
   
@@ -149,54 +162,63 @@ module Raylib
       o.target = target
       o.rotation = rotation
       o.zoom = zoom
+      o
     end
   end
   
   class Mesh
     def self.init()
       o = Mesh.new
+      o
     end
   end
   
   class Shader
     def self.init()
       o = Shader.new
+      o
     end
   end
   
   class MaterialMap
     def self.init()
       o = MaterialMap.new
+      o
     end
   end
   
   class Material
     def self.init()
       o = Material.new
+      o
     end
   end
   
   class Model
     def self.init()
       o = Model.new
+      o
     end
   end
   
   class Transform
     def self.init()
       o = Transform.new
+      o
     end
   end
   
   class BoneInfo
     def self.init()
       o = BoneInfo.new
+      o
     end
   end
   
   class ModelAnimation
     def self.init()
       o = ModelAnimation.new
+      o
     end
   end
   
@@ -205,6 +227,7 @@ module Raylib
       o = Ray.new
       o.position = position
       o.direction = direction
+      o
     end
   end
   
@@ -215,6 +238,7 @@ module Raylib
       o.distance = distance
       o.position = position
       o.normal = normal
+      o
     end
   end
   
@@ -223,39 +247,45 @@ module Raylib
       o = BoundingBox.new
       o.min = min
       o.max = max
+      o
     end
   end
   
   class Wave
     def self.init()
       o = Wave.new
+      o
     end
   end
   
   class Sound
     def self.init()
       o = Sound.new
+      o
     end
   end
   
   class Music
     def self.init()
       o = Music.new
+      o
     end
   end
   
   class AudioStream
     def self.init()
       o = AudioStream.new
+      o
     end
   end
   
   class VrDeviceInfo
     def self.init()
       o = VrDeviceInfo.new
+      o
     end
   end
-  
+      
   WHITE     = Color.init(255, 255, 255, 255)
   RAYWHITE  = Color.init(245, 245, 245, 255)
   LIGHTGRAY = Color.init(200, 200, 200, 255)
@@ -271,14 +301,14 @@ module Raylib
 
   def draw
     begin_drawing
-	yield
-	end_drawing
+	  yield
+	  end_drawing
   end
 
   def mode3d(camera)
     begin_mode3d(camera)
 	  yield
-	end_mode3d
+	  end_mode3d
   end
 end
 
