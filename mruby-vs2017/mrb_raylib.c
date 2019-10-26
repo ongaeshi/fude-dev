@@ -3597,6 +3597,29 @@ mrb_raylib_get_gesture_pinch_angle(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_set_camera_mode(mrb_state *mrb, mrb_value self)
+{
+	mrb_value camera;
+	mrb_int mode;
+	mrb_get_args(mrb, "oi", &camera, &mode);
+
+	SetCameraMode(*(Camera3D*)DATA_PTR(camera), mode);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_update_camera(mrb_state *mrb, mrb_value self)
+{
+	mrb_value camera;
+	mrb_get_args(mrb, "o", &camera);
+
+	UpdateCamera((Camera3D*)DATA_PTR(camera));
+
+	return self;
+}
+
+static mrb_value
 mrb_raylib_set_camera_pan_control(mrb_state *mrb, mrb_value self)
 {
 	mrb_int panKey;
@@ -6178,6 +6201,8 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_drag_angle", mrb_raylib_get_gesture_drag_angle, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_pinch_vector", mrb_raylib_get_gesture_pinch_vector, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_gesture_pinch_angle", mrb_raylib_get_gesture_pinch_angle, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "set_camera_mode", mrb_raylib_set_camera_mode, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "update_camera", mrb_raylib_update_camera, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_pan_control", mrb_raylib_set_camera_pan_control, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_alt_control", mrb_raylib_set_camera_alt_control, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_camera_smooth_zoom_control", mrb_raylib_set_camera_smooth_zoom_control, MRB_ARGS_REQ(1));
