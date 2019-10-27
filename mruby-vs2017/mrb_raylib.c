@@ -4971,6 +4971,18 @@ mrb_raylib_draw_plane(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_raylib_draw_ray(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_value color;
+	mrb_get_args(mrb, "oo", &ray, &color);
+
+	DrawRay(*(Ray*)DATA_PTR(ray), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
 mrb_raylib_draw_grid(mrb_state *mrb, mrb_value self)
 {
 	mrb_int slices;
@@ -4991,6 +5003,527 @@ mrb_raylib_draw_gizmo(mrb_state *mrb, mrb_value self)
 	DrawGizmo(*(Vector3*)DATA_PTR(position));
 
 	return self;
+}
+
+static mrb_value
+mrb_raylib_load_model(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	mrb_value ret = mrb_raylib_model_to_mrb(mrb, LoadModel(RSTRING_PTR(fileName)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_load_model_from_mesh(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mesh;
+	mrb_get_args(mrb, "o", &mesh);
+
+	mrb_value ret = mrb_raylib_model_to_mrb(mrb, LoadModelFromMesh(*(Mesh*)DATA_PTR(mesh)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_unload_model(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_get_args(mrb, "o", &model);
+
+	UnloadModel(*(Model*)DATA_PTR(model));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_export_mesh(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mesh;
+	mrb_value fileName;
+	mrb_get_args(mrb, "oS", &mesh, &fileName);
+
+	ExportMesh(*(Mesh*)DATA_PTR(mesh), RSTRING_PTR(fileName));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_unload_mesh(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mesh;
+	mrb_get_args(mrb, "o", &mesh);
+
+	UnloadMesh((Mesh*)DATA_PTR(mesh));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_load_material_default(mrb_state *mrb, mrb_value self)
+{
+
+
+	mrb_value ret = mrb_raylib_material_to_mrb(mrb, LoadMaterialDefault());
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_unload_material(mrb_state *mrb, mrb_value self)
+{
+	mrb_value material;
+	mrb_get_args(mrb, "o", &material);
+
+	UnloadMaterial(*(Material*)DATA_PTR(material));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_material_texture(mrb_state *mrb, mrb_value self)
+{
+	mrb_value material;
+	mrb_int mapType;
+	mrb_value texture;
+	mrb_get_args(mrb, "oio", &material, &mapType, &texture);
+
+	SetMaterialTexture((Material*)DATA_PTR(material), mapType, *(Texture2D*)DATA_PTR(texture));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_set_model_mesh_material(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_int meshId;
+	mrb_int materialId;
+	mrb_get_args(mrb, "oii", &model, &meshId, &materialId);
+
+	SetModelMeshMaterial((Model*)DATA_PTR(model), meshId, materialId);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_update_model_animation(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_value anim;
+	mrb_int frame;
+	mrb_get_args(mrb, "ooi", &model, &anim, &frame);
+
+	UpdateModelAnimation(*(Model*)DATA_PTR(model), *(ModelAnimation*)DATA_PTR(anim), frame);
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_unload_model_animation(mrb_state *mrb, mrb_value self)
+{
+	mrb_value anim;
+	mrb_get_args(mrb, "o", &anim);
+
+	UnloadModelAnimation(*(ModelAnimation*)DATA_PTR(anim));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_is_model_animation_valid(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_value anim;
+	mrb_get_args(mrb, "oo", &model, &anim);
+
+	mrb_value ret = mrb_bool_value(IsModelAnimationValid(*(Model*)DATA_PTR(model), *(ModelAnimation*)DATA_PTR(anim)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_poly(mrb_state *mrb, mrb_value self)
+{
+	mrb_int sides;
+	mrb_float radius;
+	mrb_get_args(mrb, "if", &sides, &radius);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshPoly(sides, radius));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_plane(mrb_state *mrb, mrb_value self)
+{
+	mrb_float width;
+	mrb_float length;
+	mrb_int resX;
+	mrb_int resZ;
+	mrb_get_args(mrb, "ffii", &width, &length, &resX, &resZ);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshPlane(width, length, resX, resZ));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_cube(mrb_state *mrb, mrb_value self)
+{
+	mrb_float width;
+	mrb_float height;
+	mrb_float length;
+	mrb_get_args(mrb, "fff", &width, &height, &length);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshCube(width, height, length));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_sphere(mrb_state *mrb, mrb_value self)
+{
+	mrb_float radius;
+	mrb_int rings;
+	mrb_int slices;
+	mrb_get_args(mrb, "fii", &radius, &rings, &slices);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshSphere(radius, rings, slices));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_hemi_sphere(mrb_state *mrb, mrb_value self)
+{
+	mrb_float radius;
+	mrb_int rings;
+	mrb_int slices;
+	mrb_get_args(mrb, "fii", &radius, &rings, &slices);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshHemiSphere(radius, rings, slices));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_cylinder(mrb_state *mrb, mrb_value self)
+{
+	mrb_float radius;
+	mrb_float height;
+	mrb_int slices;
+	mrb_get_args(mrb, "ffi", &radius, &height, &slices);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshCylinder(radius, height, slices));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_torus(mrb_state *mrb, mrb_value self)
+{
+	mrb_float radius;
+	mrb_float size;
+	mrb_int radSeg;
+	mrb_int sides;
+	mrb_get_args(mrb, "ffii", &radius, &size, &radSeg, &sides);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshTorus(radius, size, radSeg, sides));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_knot(mrb_state *mrb, mrb_value self)
+{
+	mrb_float radius;
+	mrb_float size;
+	mrb_int radSeg;
+	mrb_int sides;
+	mrb_get_args(mrb, "ffii", &radius, &size, &radSeg, &sides);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshKnot(radius, size, radSeg, sides));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_heightmap(mrb_state *mrb, mrb_value self)
+{
+	mrb_value heightmap;
+	mrb_value size;
+	mrb_get_args(mrb, "oo", &heightmap, &size);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshHeightmap(*(Image*)DATA_PTR(heightmap), *(Vector3*)DATA_PTR(size)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_gen_mesh_cubicmap(mrb_state *mrb, mrb_value self)
+{
+	mrb_value cubicmap;
+	mrb_value cubeSize;
+	mrb_get_args(mrb, "oo", &cubicmap, &cubeSize);
+
+	mrb_value ret = mrb_raylib_mesh_to_mrb(mrb, GenMeshCubicmap(*(Image*)DATA_PTR(cubicmap), *(Vector3*)DATA_PTR(cubeSize)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_mesh_bounding_box(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mesh;
+	mrb_get_args(mrb, "o", &mesh);
+
+	mrb_value ret = mrb_raylib_boundingbox_to_mrb(mrb, MeshBoundingBox(*(Mesh*)DATA_PTR(mesh)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_mesh_tangents(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mesh;
+	mrb_get_args(mrb, "o", &mesh);
+
+	MeshTangents((Mesh*)DATA_PTR(mesh));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_mesh_binormals(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mesh;
+	mrb_get_args(mrb, "o", &mesh);
+
+	MeshBinormals((Mesh*)DATA_PTR(mesh));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_model(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_value position;
+	mrb_float scale;
+	mrb_value tint;
+	mrb_get_args(mrb, "oofo", &model, &position, &scale, &tint);
+
+	DrawModel(*(Model*)DATA_PTR(model), *(Vector3*)DATA_PTR(position), scale, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_model_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_value position;
+	mrb_value rotationAxis;
+	mrb_float rotationAngle;
+	mrb_value scale;
+	mrb_value tint;
+	mrb_get_args(mrb, "ooofoo", &model, &position, &rotationAxis, &rotationAngle, &scale, &tint);
+
+	DrawModelEx(*(Model*)DATA_PTR(model), *(Vector3*)DATA_PTR(position), *(Vector3*)DATA_PTR(rotationAxis), rotationAngle, *(Vector3*)DATA_PTR(scale), *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_model_wires(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_value position;
+	mrb_float scale;
+	mrb_value tint;
+	mrb_get_args(mrb, "oofo", &model, &position, &scale, &tint);
+
+	DrawModelWires(*(Model*)DATA_PTR(model), *(Vector3*)DATA_PTR(position), scale, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_model_wires_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value model;
+	mrb_value position;
+	mrb_value rotationAxis;
+	mrb_float rotationAngle;
+	mrb_value scale;
+	mrb_value tint;
+	mrb_get_args(mrb, "ooofoo", &model, &position, &rotationAxis, &rotationAngle, &scale, &tint);
+
+	DrawModelWiresEx(*(Model*)DATA_PTR(model), *(Vector3*)DATA_PTR(position), *(Vector3*)DATA_PTR(rotationAxis), rotationAngle, *(Vector3*)DATA_PTR(scale), *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_bounding_box(mrb_state *mrb, mrb_value self)
+{
+	mrb_value box;
+	mrb_value color;
+	mrb_get_args(mrb, "oo", &box, &color);
+
+	DrawBoundingBox(*(BoundingBox*)DATA_PTR(box), *(Color*)DATA_PTR(color));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_billboard(mrb_state *mrb, mrb_value self)
+{
+	mrb_value camera;
+	mrb_value texture;
+	mrb_value center;
+	mrb_float size;
+	mrb_value tint;
+	mrb_get_args(mrb, "ooofo", &camera, &texture, &center, &size, &tint);
+
+	DrawBillboard(*(Camera3D*)DATA_PTR(camera), *(Texture2D*)DATA_PTR(texture), *(Vector3*)DATA_PTR(center), size, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_draw_billboard_rec(mrb_state *mrb, mrb_value self)
+{
+	mrb_value camera;
+	mrb_value texture;
+	mrb_value sourceRec;
+	mrb_value center;
+	mrb_float size;
+	mrb_value tint;
+	mrb_get_args(mrb, "oooofo", &camera, &texture, &sourceRec, &center, &size, &tint);
+
+	DrawBillboardRec(*(Camera3D*)DATA_PTR(camera), *(Texture2D*)DATA_PTR(texture), *(Rectangle*)DATA_PTR(sourceRec), *(Vector3*)DATA_PTR(center), size, *(Color*)DATA_PTR(tint));
+
+	return self;
+}
+
+static mrb_value
+mrb_raylib_check_collision_spheres(mrb_state *mrb, mrb_value self)
+{
+	mrb_value centerA;
+	mrb_float radiusA;
+	mrb_value centerB;
+	mrb_float radiusB;
+	mrb_get_args(mrb, "ofof", &centerA, &radiusA, &centerB, &radiusB);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionSpheres(*(Vector3*)DATA_PTR(centerA), radiusA, *(Vector3*)DATA_PTR(centerB), radiusB));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_boxes(mrb_state *mrb, mrb_value self)
+{
+	mrb_value box1;
+	mrb_value box2;
+	mrb_get_args(mrb, "oo", &box1, &box2);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionBoxes(*(BoundingBox*)DATA_PTR(box1), *(BoundingBox*)DATA_PTR(box2)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_box_sphere(mrb_state *mrb, mrb_value self)
+{
+	mrb_value box;
+	mrb_value centerSphere;
+	mrb_float radiusSphere;
+	mrb_get_args(mrb, "oof", &box, &centerSphere, &radiusSphere);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionBoxSphere(*(BoundingBox*)DATA_PTR(box), *(Vector3*)DATA_PTR(centerSphere), radiusSphere));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_ray_sphere(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_value spherePosition;
+	mrb_float sphereRadius;
+	mrb_get_args(mrb, "oof", &ray, &spherePosition, &sphereRadius);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionRaySphere(*(Ray*)DATA_PTR(ray), *(Vector3*)DATA_PTR(spherePosition), sphereRadius));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_ray_sphere_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_value spherePosition;
+	mrb_float sphereRadius;
+	mrb_value collisionPoint;
+	mrb_get_args(mrb, "oofo", &ray, &spherePosition, &sphereRadius, &collisionPoint);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionRaySphereEx(*(Ray*)DATA_PTR(ray), *(Vector3*)DATA_PTR(spherePosition), sphereRadius, (Vector3*)DATA_PTR(collisionPoint)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_check_collision_ray_box(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_value box;
+	mrb_get_args(mrb, "oo", &ray, &box);
+
+	mrb_value ret = mrb_bool_value(CheckCollisionRayBox(*(Ray*)DATA_PTR(ray), *(BoundingBox*)DATA_PTR(box)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_collision_ray_model(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_value model;
+	mrb_get_args(mrb, "oo", &ray, &model);
+
+	mrb_value ret = mrb_raylib_rayhitinfo_to_mrb(mrb, GetCollisionRayModel(*(Ray*)DATA_PTR(ray), (Model*)DATA_PTR(model)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_collision_ray_triangle(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_value p1;
+	mrb_value p2;
+	mrb_value p3;
+	mrb_get_args(mrb, "oooo", &ray, &p1, &p2, &p3);
+
+	mrb_value ret = mrb_raylib_rayhitinfo_to_mrb(mrb, GetCollisionRayTriangle(*(Ray*)DATA_PTR(ray), *(Vector3*)DATA_PTR(p1), *(Vector3*)DATA_PTR(p2), *(Vector3*)DATA_PTR(p3)));
+
+	return ret;
+}
+
+static mrb_value
+mrb_raylib_get_collision_ray_ground(mrb_state *mrb, mrb_value self)
+{
+	mrb_value ray;
+	mrb_float groundHeight;
+	mrb_get_args(mrb, "of", &ray, &groundHeight);
+
+	mrb_value ret = mrb_raylib_rayhitinfo_to_mrb(mrb, GetCollisionRayGround(*(Ray*)DATA_PTR(ray), groundHeight));
+
+	return ret;
 }
 
 static mrb_value
@@ -6303,8 +6836,50 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "draw_cylinder", mrb_raylib_draw_cylinder, MRB_ARGS_REQ(6));
 	mrb_define_module_function(mrb, mod_raylib, "draw_cylinder_wires", mrb_raylib_draw_cylinder_wires, MRB_ARGS_REQ(6));
 	mrb_define_module_function(mrb, mod_raylib, "draw_plane", mrb_raylib_draw_plane, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "draw_ray", mrb_raylib_draw_ray, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "draw_grid", mrb_raylib_draw_grid, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "draw_gizmo", mrb_raylib_draw_gizmo, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_model", mrb_raylib_load_model, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_model_from_mesh", mrb_raylib_load_model_from_mesh, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "unload_model", mrb_raylib_unload_model, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "export_mesh", mrb_raylib_export_mesh, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "unload_mesh", mrb_raylib_unload_mesh, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_material_default", mrb_raylib_load_material_default, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "unload_material", mrb_raylib_unload_material, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "set_material_texture", mrb_raylib_set_material_texture, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "set_model_mesh_material", mrb_raylib_set_model_mesh_material, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "update_model_animation", mrb_raylib_update_model_animation, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "unload_model_animation", mrb_raylib_unload_model_animation, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "is_model_animation_valid", mrb_raylib_is_model_animation_valid, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_poly", mrb_raylib_gen_mesh_poly, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_plane", mrb_raylib_gen_mesh_plane, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_cube", mrb_raylib_gen_mesh_cube, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_sphere", mrb_raylib_gen_mesh_sphere, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_hemi_sphere", mrb_raylib_gen_mesh_hemi_sphere, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_cylinder", mrb_raylib_gen_mesh_cylinder, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_torus", mrb_raylib_gen_mesh_torus, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_knot", mrb_raylib_gen_mesh_knot, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_heightmap", mrb_raylib_gen_mesh_heightmap, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "gen_mesh_cubicmap", mrb_raylib_gen_mesh_cubicmap, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "mesh_bounding_box", mrb_raylib_mesh_bounding_box, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "mesh_tangents", mrb_raylib_mesh_tangents, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "mesh_binormals", mrb_raylib_mesh_binormals, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "draw_model", mrb_raylib_draw_model, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_model_ex", mrb_raylib_draw_model_ex, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_model_wires", mrb_raylib_draw_model_wires, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_model_wires_ex", mrb_raylib_draw_model_wires_ex, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "draw_bounding_box", mrb_raylib_draw_bounding_box, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "draw_billboard", mrb_raylib_draw_billboard, MRB_ARGS_REQ(5));
+	mrb_define_module_function(mrb, mod_raylib, "draw_billboard_rec", mrb_raylib_draw_billboard_rec, MRB_ARGS_REQ(6));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_spheres", mrb_raylib_check_collision_spheres, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_boxes", mrb_raylib_check_collision_boxes, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_box_sphere", mrb_raylib_check_collision_box_sphere, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_ray_sphere", mrb_raylib_check_collision_ray_sphere, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_ray_sphere_ex", mrb_raylib_check_collision_ray_sphere_ex, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "check_collision_ray_box", mrb_raylib_check_collision_ray_box, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "get_collision_ray_model", mrb_raylib_get_collision_ray_model, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "get_collision_ray_triangle", mrb_raylib_get_collision_ray_triangle, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "get_collision_ray_ground", mrb_raylib_get_collision_ray_ground, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "load_shader", mrb_raylib_load_shader, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "unload_shader", mrb_raylib_unload_shader, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_shader_default", mrb_raylib_get_shader_default, MRB_ARGS_NONE());
