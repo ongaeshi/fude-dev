@@ -76,6 +76,16 @@ window(800, 450, "Hello, raylib on mruby!") do
   texture = load_texture("ruby-logo.png")
 
   until window_should_close do
+	if is_file_dropped
+	  dropped = get_dropped_files
+
+	  dropped.each do |e|
+	    p e
+	  end
+
+	  clear_dropped_files
+	end
+
     x -= 1 if is_mouse_button_down(0)
 	x += 1 if is_mouse_button_down(1)
 	open_url("https://github.com/raysan5/raylib") if is_mouse_button_pressed(2)

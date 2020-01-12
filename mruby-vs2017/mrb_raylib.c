@@ -1,5 +1,6 @@
 ﻿#include "mrb_raylib.h"
 
+#include <mruby/array.h>
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/string.h>
@@ -3200,6 +3201,21 @@ mrb_func_raylib_is_file_dropped(mrb_state *mrb, mrb_value self)
 	mrb_value ret = mrb_bool_value(IsFileDropped());
 
 	return ret;
+}
+
+static mrb_value
+mrb_func_raylib_get_dropped_files(mrb_state *mrb, mrb_value self)
+{
+	int count = 0;
+	char** filenames = GetDroppedFiles(&count);
+
+	mrb_value array = mrb_ary_new(mrb);
+
+	for (int i = 0; i < count; i++) {
+		mrb_ary_push(mrb, array, mrb_str_new_cstr(mrb, filenames[i]));
+	}
+
+	return array;
 }
 
 static mrb_value
@@ -7265,6 +7281,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "clear_directory_files", mrb_func_raylib_clear_directory_files, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "change_directory", mrb_func_raylib_change_directory, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "is_file_dropped", mrb_func_raylib_is_file_dropped, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_dropped_files", mrb_func_raylib_get_dropped_files, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "clear_dropped_files", mrb_func_raylib_clear_dropped_files, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "storage_save_value", mrb_func_raylib_storage_save_value, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "storage_load_value", mrb_func_raylib_storage_load_value, MRB_ARGS_REQ(1));
