@@ -68,7 +68,9 @@ end
 p get_color 0x111
 # p get_color 0xffffffff
 
-window(800, 450, "Hello, raylib on mruby!") do
+window(800, 450, "Hello, raylib on mruby!") do 
+  init_physics
+
   set_target_fps(60)
 
   x, y, font_size = 190, 200, 20

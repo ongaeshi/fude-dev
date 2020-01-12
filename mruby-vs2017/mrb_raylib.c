@@ -7,6 +7,10 @@
 #include <raylib.h>
 #include <string.h>
 
+#define PHYSAC_IMPLEMENTATION
+#define PHYSAC_NO_THREADS
+#include <physac.h>
+
 static struct RClass *mrb_cls_raylib_vector2;
 const static struct mrb_data_type mrb_raylib_vector2_data_type = { "Vector2", mrb_free };
 
@@ -6247,6 +6251,12 @@ mrb_raylib_set_audio_stream_pitch(mrb_state *mrb, mrb_value self)
 	return self;
 }
 
+static mrb_value
+mrb_raylib_init_physics(mrb_state *mrb, mrb_value self)
+{
+	InitPhysics();
+	return self;
+}
 
 void mrb_raylib_module_init(mrb_state *mrb)
 {
@@ -6945,5 +6955,6 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "stop_audio_stream", mrb_raylib_stop_audio_stream, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_audio_stream_volume", mrb_raylib_set_audio_stream_volume, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "set_audio_stream_pitch", mrb_raylib_set_audio_stream_pitch, MRB_ARGS_REQ(2));
+	mrb_define_module_function(mrb, mod_raylib, "init_physics", mrb_raylib_init_physics, MRB_ARGS_NONE());
 
 }
