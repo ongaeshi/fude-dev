@@ -2875,6 +2875,17 @@ mrb_func_raylib_end_mode3d(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_func_raylib_begin_texture_mode(mrb_state *mrb, mrb_value self)
+{
+	mrb_value target;
+	mrb_get_args(mrb, "o", &target);
+
+	BeginTextureMode(*(RenderTexture2D*)DATA_PTR(target));
+
+	return self;
+}
+
+static mrb_value
 mrb_func_raylib_end_texture_mode(mrb_state *mrb, mrb_value self)
 {
 
@@ -7224,6 +7235,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "end_mode2d", mrb_func_raylib_end_mode2d, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "begin_mode3d", mrb_func_raylib_begin_mode3d, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "end_mode3d", mrb_func_raylib_end_mode3d, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "begin_texture_mode", mrb_func_raylib_begin_texture_mode, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "end_texture_mode", mrb_func_raylib_end_texture_mode, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_mouse_ray", mrb_func_raylib_get_mouse_ray, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "get_world_to_screen", mrb_func_raylib_get_world_to_screen, MRB_ARGS_REQ(2));
