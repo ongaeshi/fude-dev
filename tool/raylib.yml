@@ -653,6 +653,23 @@
 
 # Model animations loading/unloading functions
 # - name: ModelAnimation* LoadModelAnimations(const char* fileName, int* animsCount);                         # Load model animations from file
+- name: load_model_animations(file_name)
+  content: |
+    mrb_value fileName;
+    mrb_get_args(mrb, "S", &fileName);
+
+    int animsCount = 0;
+    ModelAnimation* anims = LoadModelAnimations(RSTRING_PTR(fileName), &animsCount);
+
+    mrb_value array = mrb_ary_new(mrb);
+
+    for (int i = 0; i < animsCount; i++) {
+        mrb_ary_push(mrb, array, mrb_raylib_modelanimation_to_mrb(mrb, anims[i]));
+    }
+
+    RL_FREE(anims);
+
+    return array;
 - name: void UpdateModelAnimation(Model model, ModelAnimation anim, int frame);                             # Update model animation pose
 - name: void UnloadModelAnimation(ModelAnimation anim);                                                     # Unload animation data
 - name: bool IsModelAnimationValid(Model model, ModelAnimation anim);                                       # Check model animation skeleton match

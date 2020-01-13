@@ -5756,6 +5756,26 @@ mrb_func_raylib_set_model_mesh_material(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_func_raylib_load_model_animations(mrb_state *mrb, mrb_value self)
+{
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	int animsCount = 0;
+	ModelAnimation* anims = LoadModelAnimations(RSTRING_PTR(fileName), &animsCount);
+
+	mrb_value array = mrb_ary_new(mrb);
+
+	for (int i = 0; i < animsCount; i++) {
+		mrb_ary_push(mrb, array, mrb_raylib_modelanimation_to_mrb(mrb, anims[i]));
+	}
+
+	RL_FREE(anims);
+
+	return array;
+}
+
+static mrb_value
 mrb_func_raylib_update_model_animation(mrb_state *mrb, mrb_value self)
 {
 	mrb_value model;
@@ -7581,6 +7601,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "unload_material", mrb_func_raylib_unload_material, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_material_texture", mrb_func_raylib_set_material_texture, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "set_model_mesh_material", mrb_func_raylib_set_model_mesh_material, MRB_ARGS_REQ(3));
+	mrb_define_module_function(mrb, mod_raylib, "load_model_animations", mrb_func_raylib_load_model_animations, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "update_model_animation", mrb_func_raylib_update_model_animation, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "unload_model_animation", mrb_func_raylib_unload_model_animation, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "is_model_animation_valid", mrb_func_raylib_is_model_animation_valid, MRB_ARGS_REQ(2));
