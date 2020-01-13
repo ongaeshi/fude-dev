@@ -382,6 +382,33 @@
 - name: void DrawLineEx(Vector2 startPos, Vector2 endPos, float thick, Color color);                        # Draw a line defining thickness
 - name: void DrawLineBezier(Vector2 startPos, Vector2 endPos, float thick, Color color);                    # Draw a line using cubic-bezier curves in-out
 # - name: void DrawLineStrip(Vector2 *points, int numPoints, Color color);                                    # Draw lines sequence
+- name: draw_line_strip(points, color)
+  content: |
+    mrb_value mpoints;
+    mrb_value mcolor;
+    mrb_get_args(mrb, "oo", &mpoints, &mcolor);
+
+    int pointsCount = RARRAY_LEN(mpoints);
+    Color color = *(Color*)DATA_PTR(mcolor);
+
+    // ref: raylib/src/shapes.c DrawLineStrip
+    if (pointsCount >= 2) {
+        if (rlCheckBufferLimit(pointsCount)) rlglDraw();
+
+        rlBegin(RL_LINES);
+        rlColor4ub(color.r, color.g, color.b, color.a);
+
+        for (int i = 0; i < pointsCount - 1; i++) {
+            Vector2* v1 = (Vector2*)DATA_PTR(mrb_ary_ref(mrb, mpoints, i));
+            Vector2* v2 = (Vector2*)DATA_PTR(mrb_ary_ref(mrb, mpoints, i + 1));
+
+            rlVertex2f(v1->x, v1->y);
+            rlVertex2f(v2->x, v2->y);
+        }
+        rlEnd();
+    }
+
+    return self;
 - name: void DrawCircle(int centerX, int centerY, float radius, Color color);                               # Draw a color-filled circle
 - name: void DrawCircleSector(Vector2 center, float radius, int startAngle, int endAngle, int segments, Color color);      # Draw a piece of a circle
 - name: void DrawCircleSectorLines(Vector2 center, float radius, int startAngle, int endAngle, int segments, Color color); # Draw circle sector outline

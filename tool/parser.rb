@@ -57,6 +57,7 @@ MRB_RAYLIB_API void mrb_raylib_module_init(mrb_state *mrb);
 #include <mruby/string.h>
 #include <mruby/value.h>
 #include <raylib.h>
+#include <rlgl.h>
 #include <string.h>
 
 #{@elems.map { |e| e.impl_header }.join("\n")}

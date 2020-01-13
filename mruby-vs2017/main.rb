@@ -20,6 +20,13 @@ class Color
 end
 
 class Vector2
+  def self.init(x, y)
+    o = Vector2.new
+    o.x = x
+    o.y = y
+    o
+  end
+
   def self.new_a(a)
     v = Vector2.new
     v.x, v.y = a
@@ -69,7 +76,7 @@ p get_color 0x111
 # p get_color 0xffffffff
 
 get_directory_files(".").each do |e|
-	p e
+  p e
 end
 
 window(800, 450, "Hello, raylib on mruby!") do
@@ -112,6 +119,9 @@ window(800, 450, "Hello, raylib on mruby!") do
         draw_circle_sector2([e * 10, 170], 4, 0, e * 4, 10, LIGHTGRAY)
         draw_rectangle(e * 10 - 4, 180, 8, 8, LIGHTGRAY)
       end
+
+      draw_line_strip([Vector2.init(100, 100), Vector2.init(200, 100), Vector2.init(300, 200), Vector2.init(100, 150), Vector2.init(50, 200), Vector2.init(100, 100)], LIGHTGRAY)
+
       draw_text("FPS: #{get_fps}", 0, 0, font_size, LIGHTGRAY)
       draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
       draw_text("Mouse #{v.x}, #{v.y}", x, y + 100, font_size, LIGHTGRAY)
@@ -140,7 +150,7 @@ window(800, 450, "Hello, raylib on mruby!") do
       end
 
       draw_text("Welcome to the third dimension!", 10, 40, 20, DARKGRAY)
-      # draw_fps(10, 10)
+      draw_fps(10, 10)
     end
   end
 

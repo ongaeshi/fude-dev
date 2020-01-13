@@ -6,6 +6,7 @@
 #include <mruby/string.h>
 #include <mruby/value.h>
 #include <raylib.h>
+#include <rlgl.h>
 #include <string.h>
 
 static struct RClass *mrb_cls_raylib_vector2;
@@ -3857,6 +3858,36 @@ mrb_func_raylib_draw_line_bezier(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_func_raylib_draw_line_strip(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mpoints;
+	mrb_value mcolor;
+	mrb_get_args(mrb, "oo", &mpoints, &mcolor);
+
+	int pointsCount = RARRAY_LEN(mpoints);
+	Color color = *(Color*)DATA_PTR(mcolor);
+
+	// ref: raylib/src/shapes.c DrawLineStrip
+	if (pointsCount >= 2) {
+		if (rlCheckBufferLimit(pointsCount)) rlglDraw();
+
+		rlBegin(RL_LINES);
+		rlColor4ub(color.r, color.g, color.b, color.a);
+
+		for (int i = 0; i < pointsCount - 1; i++) {
+			Vector2* v1 = (Vector2*)DATA_PTR(mrb_ary_ref(mrb, mpoints, i));
+			Vector2* v2 = (Vector2*)DATA_PTR(mrb_ary_ref(mrb, mpoints, i + 1));
+
+			rlVertex2f(v1->x, v1->y);
+			rlVertex2f(v2->x, v2->y);
+		}
+		rlEnd();
+	}
+
+	return self;
+}
+
+static mrb_value
 mrb_func_raylib_draw_circle(mrb_state *mrb, mrb_value self)
 {
 	mrb_int centerX;
@@ -7356,6 +7387,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "draw_line_v", mrb_func_raylib_draw_line_v, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "draw_line_ex", mrb_func_raylib_draw_line_ex, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "draw_line_bezier", mrb_func_raylib_draw_line_bezier, MRB_ARGS_REQ(4));
+	mrb_define_module_function(mrb, mod_raylib, "draw_line_strip", mrb_func_raylib_draw_line_strip, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "draw_circle", mrb_func_raylib_draw_circle, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "draw_circle_sector", mrb_func_raylib_draw_circle_sector, MRB_ARGS_REQ(6));
 	mrb_define_module_function(mrb, mod_raylib, "draw_circle_sector_lines", mrb_func_raylib_draw_circle_sector_lines, MRB_ARGS_REQ(6));
