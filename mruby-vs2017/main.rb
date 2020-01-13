@@ -86,6 +86,16 @@ window(800, 450, "Hello, raylib on mruby!") do
 
   texture = load_texture("ruby-logo.png")
 
+	pixels = []
+	(0..255).each do |x|
+		(0..255).each do |y|
+			pixels.push(make_color(x, y, 64, 255))
+		end
+	end
+	image = load_image_ex(pixels, 256, 256)
+	generated_texture = load_texture_from_image(image)
+	unload_image(image)
+
   until window_should_close
     if is_file_dropped
       dropped = get_dropped_files
@@ -110,6 +120,7 @@ window(800, 450, "Hello, raylib on mruby!") do
 
       draw_texture(texture, 0, 300, WHITE)
       draw_texture_ex(texture, Vector2.new_a([0, 100]), 0, 0.5, WHITE)
+			draw_texture(generated_texture, 200, 100, WHITE)
 
       (0..100).each do |e|
         draw_pixel(e * 10, 100, LIGHTGRAY)

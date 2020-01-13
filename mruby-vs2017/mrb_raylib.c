@@ -4324,6 +4324,38 @@ mrb_func_raylib_load_image(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_func_raylib_load_image_ex(mrb_state *mrb, mrb_value self)
+{
+	mrb_value pixels;
+	mrb_int width, height;
+	mrb_get_args(mrb, "oii", &pixels, &width, &height);
+
+	// ref: raylib/src/texture.c LoadImageEx
+	Image image;
+	image.data = NULL;
+	image.width = width;
+	image.height = height;
+	image.mipmaps = 1;
+	image.format = UNCOMPRESSED_R8G8B8A8;
+
+	int k = 0;
+
+	image.data = (unsigned char *)RL_MALLOC(image.width*image.height * 4 * sizeof(unsigned char));
+
+	for (int i = 0; i < image.width*image.height * 4; i += 4) {
+		Color* pixel = (Color*)DATA_PTR(mrb_ary_ref(mrb, pixels, k));
+
+		((unsigned char *)image.data)[i] = pixel->r;
+		((unsigned char *)image.data)[i + 1] = pixel->g;
+		((unsigned char *)image.data)[i + 2] = pixel->b;
+		((unsigned char *)image.data)[i + 3] = pixel->a;
+		k++;
+	}
+
+	return mrb_raylib_image_to_mrb(mrb, image);
+}
+
+static mrb_value
 mrb_func_raylib_load_image_raw(mrb_state *mrb, mrb_value self)
 {
 	mrb_value fileName;
@@ -7419,6 +7451,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "check_collision_point_circle", mrb_func_raylib_check_collision_point_circle, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "check_collision_point_triangle", mrb_func_raylib_check_collision_point_triangle, MRB_ARGS_REQ(4));
 	mrb_define_module_function(mrb, mod_raylib, "load_image", mrb_func_raylib_load_image, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "load_image_ex", mrb_func_raylib_load_image_ex, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "load_image_raw", mrb_func_raylib_load_image_raw, MRB_ARGS_REQ(5));
 	mrb_define_module_function(mrb, mod_raylib, "export_image", mrb_func_raylib_export_image, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "export_image_as_code", mrb_func_raylib_export_image_as_code, MRB_ARGS_REQ(2));
