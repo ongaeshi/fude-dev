@@ -68,6 +68,10 @@ end
 p get_color 0x111
 # p get_color 0xffffffff
 
+get_directory_files(".").each do |e|
+	p e
+end
+
 window(800, 450, "Hello, raylib on mruby!") do
   set_target_fps(60)
 

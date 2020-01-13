@@ -3173,6 +3173,24 @@ mrb_func_raylib_get_working_directory(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_func_raylib_get_directory_files(mrb_state *mrb, mrb_value self)
+{
+	mrb_value dirPath;
+	mrb_get_args(mrb, "S", &dirPath);
+
+	int count = 0;
+	char** filenames = GetDirectoryFiles(RSTRING_PTR(dirPath), &count);
+
+	mrb_value array = mrb_ary_new(mrb);
+
+	for (int i = 0; i < count; i++) {
+		mrb_ary_push(mrb, array, mrb_str_new_cstr(mrb, filenames[i]));
+	}
+
+	return array;
+}
+
+static mrb_value
 mrb_func_raylib_clear_directory_files(mrb_state *mrb, mrb_value self)
 {
 
@@ -7278,6 +7296,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "get_file_name_without_ext", mrb_func_raylib_get_file_name_without_ext, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_directory_path", mrb_func_raylib_get_directory_path, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_working_directory", mrb_func_raylib_get_working_directory, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_directory_files", mrb_func_raylib_get_directory_files, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "clear_directory_files", mrb_func_raylib_clear_directory_files, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "change_directory", mrb_func_raylib_change_directory, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "is_file_dropped", mrb_func_raylib_is_file_dropped, MRB_ARGS_NONE());
