@@ -2,17 +2,24 @@ require_relative "caseninja"
 require_relative "util"
 
 class Function
-  attr_reader :c_name, :ruby_name
+  attr_reader :c_name, :ruby_name, :content
   attr_reader :ret_type
   attr_reader :arguments
 
-  def initialize(src)
-    ret_type, c_name, arguments = src.scan(/([\w *]+?)(\w+)\((.*)\)/)[0]
+  def initialize(src, content = nil)
+    @content = content
 
-    @c_name = c_name
-    @ruby_name = Caseninja.to_snake(c_name)
-    @ret_type = parse_ret_type(ret_type)
-    @arguments = parse_arguments(arguments)
+    unless content
+      ret_type, c_name, arguments = src.scan(/([\w *]+?)(\w+)\((.*)\)/)[0]
+      @c_name = c_name
+      @ruby_name = Caseninja.to_snake(c_name)
+      @ret_type = parse_ret_type(ret_type)
+      @arguments = parse_arguments(arguments)
+    else
+      @c_name = src
+      @ruby_name = Caseninja.to_snake(src)
+      @arguments = []
+    end
   end
 
   def parse_ret_type(ret_type)
@@ -30,16 +37,25 @@ class Function
   end
 
   def impl_header
+    c = content.nil? ? impl_header_normal : content
+    c = c.chomp
+
     <<-EOS
 static mrb_value
 mrb_func_raylib_#{ruby_name}(mrb_state *mrb, mrb_value self)
 {
+#{c}
+}
+    EOS
+  end
+
+  def impl_header_normal
+    <<-EOS
 #{get_args}
 
 #{call_function}
 
 #{return_value}
-}
     EOS
   end
 

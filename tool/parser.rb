@@ -10,7 +10,7 @@ class Parser
       when /\Astruct/
         parse_type(e)
       else
-        Function.new(e["name"])
+        Function.new(e["name"], e["content"])
       end
     end
   end
@@ -51,6 +51,7 @@ MRB_RAYLIB_API void mrb_raylib_module_init(mrb_state *mrb);
     <<-EOS
 #include "mrb_raylib.h"
 
+#include <mruby/array.h>
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/string.h>
