@@ -4474,6 +4474,27 @@ mrb_func_raylib_unload_render_texture(mrb_state *mrb, mrb_value self)
 }
 
 static mrb_value
+mrb_func_raylib_get_image_data(mrb_state *mrb, mrb_value self)
+{
+	mrb_value mimage;
+	mrb_get_args(mrb, "o", &mimage);
+
+	Image image = *(Image*)DATA_PTR(mimage);
+
+	Color* pixels = GetImageData(image);
+
+	mrb_value array = mrb_ary_new(mrb);
+
+	for (int i = 0; i < image.width * image.height; i++) {
+		mrb_ary_push(mrb, array, mrb_raylib_color_to_mrb(mrb, pixels[i]));
+	}
+
+	free(pixels);
+
+	return array;
+}
+
+static mrb_value
 mrb_func_raylib_get_pixel_data_size(mrb_state *mrb, mrb_value self)
 {
 	mrb_int width;
@@ -7462,6 +7483,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "unload_image", mrb_func_raylib_unload_image, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "unload_texture", mrb_func_raylib_unload_texture, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "unload_render_texture", mrb_func_raylib_unload_render_texture, MRB_ARGS_REQ(1));
+	mrb_define_module_function(mrb, mod_raylib, "get_image_data", mrb_func_raylib_get_image_data, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_pixel_data_size", mrb_func_raylib_get_pixel_data_size, MRB_ARGS_REQ(3));
 	mrb_define_module_function(mrb, mod_raylib, "get_texture_data", mrb_func_raylib_get_texture_data, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "get_screen_data", mrb_func_raylib_get_screen_data, MRB_ARGS_NONE());

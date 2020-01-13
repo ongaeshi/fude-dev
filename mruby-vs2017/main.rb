@@ -94,6 +94,10 @@ window(800, 450, "Hello, raylib on mruby!") do
 	end
 	image = load_image_ex(pixels, 256, 256)
 	generated_texture = load_texture_from_image(image)
+
+	pixels2 = get_image_data(image)
+	p pixels2.length, pixels2[0 * image.width + 0], pixels2[128 * image.width + 128], pixels2[255 * image.width + 255]
+
 	unload_image(image)
 
   until window_should_close

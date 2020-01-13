@@ -491,6 +491,24 @@
 - name: void UnloadTexture(Texture2D texture);                                                              # Unload texture from GPU memory (VRAM)
 - name: void UnloadRenderTexture(RenderTexture2D target);                                                   # Unload render texture from GPU memory (VRAM)
 # - name: Color *GetImageData(Image image);                                                                   # Get pixel data from image as a Color struct array
+- name: get_image_data(image)
+  content: |
+    mrb_value mimage;
+    mrb_get_args(mrb, "o", &mimage);
+
+    Image image = *(Image*)DATA_PTR(mimage);
+
+    Color* pixels = GetImageData(image);
+
+    mrb_value array = mrb_ary_new(mrb);
+
+    for (int i = 0; i < image.width * image.height; i++) {
+        mrb_ary_push(mrb, array, mrb_raylib_color_to_mrb(mrb, pixels[i]));
+    }
+
+    free(pixels);
+
+    return array;
 # - name: Vector4 *GetImageDataNormalized(Image image);                                                       # Get pixel data from image as Vector4 array (float normalized)
 - name: int GetPixelDataSize(int width, int height, int format);                                            # Get pixel data size in bytes (image or texture)
 - name: Image GetTextureData(Texture2D texture);                                                            # Get pixel data from GPU texture and return an Image
