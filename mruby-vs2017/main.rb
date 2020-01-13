@@ -1,4 +1,4 @@
-require './raylib'
+require "./raylib"
 
 c = make_color 128, 128, 128, 255
 
@@ -22,16 +22,16 @@ end
 class Vector2
   def self.new_a(a)
     v = Vector2.new
-	v.x, v.y = a
-	v
+    v.x, v.y = a
+    v
   end
 end
 
 class Color
   def self.new_a(a)
     v = Color.new
-	v.r, v.g, v.b, v.a = a
-	v
+    v.r, v.g, v.b, v.a = a
+    v
   end
 end
 
@@ -46,22 +46,22 @@ end
 class Vector3
   def self.init(x, y, z)
     v = Vector3.new
-	v.x = x
-	v.y = y
-	v.z = z
-	v
+    v.x = x
+    v.y = y
+    v.z = z
+    v
   end
 end
 
 class Camera3D
   def self.init(position, target, up, fovy, type)
     o = Camera3D.new
-	o.position = position
-	o.target = target
-	o.up = up
-	o.fovy = fovy
-	o.type = type
-	o
+    o.position = position
+    o.target = target
+    o.up = up
+    o.fovy = fovy
+    o.type = type
+    o
   end
 end
 
@@ -75,69 +75,69 @@ window(800, 450, "Hello, raylib on mruby!") do
 
   texture = load_texture("ruby-logo.png")
 
-  until window_should_close do
-	if is_file_dropped
-	  dropped = get_dropped_files
+  until window_should_close
+    if is_file_dropped
+      dropped = get_dropped_files
 
-	  dropped.each do |e|
-	    p e
-	  end
+      dropped.each do |e|
+        p e
+      end
 
-	  clear_dropped_files
-	end
+      clear_dropped_files
+    end
 
     x -= 1 if is_mouse_button_down(0)
-	x += 1 if is_mouse_button_down(1)
-	open_url("https://github.com/raysan5/raylib") if is_mouse_button_pressed(2)
+    x += 1 if is_mouse_button_down(1)
+    open_url("https://github.com/raysan5/raylib") if is_mouse_button_pressed(2)
 
-	font_size += get_mouse_wheel_move
+    font_size += get_mouse_wheel_move
 
-	v = get_mouse_position
+    v = get_mouse_position
 
     draw do
-	  clear_background(RAYWHITE)
+      clear_background(RAYWHITE)
 
-	  draw_texture(texture, 0, 300, WHITE)
-	  draw_texture_ex(texture, Vector2.new_a([0, 100]), 0, 0.5, WHITE)
+      draw_texture(texture, 0, 300, WHITE)
+      draw_texture_ex(texture, Vector2.new_a([0, 100]), 0, 0.5, WHITE)
 
-	  (0..100).each do |e|
-  	    draw_pixel(e * 10, 100, LIGHTGRAY)
-  	    draw_line(e * 10, 110, e * 10 + 5, 110, LIGHTGRAY)
-  	    draw_line_bezier2([e * 10, 120], [e * 10 + 30, 150], 1, [200, 200, 200, 255])
-  	    draw_circle(e * 10, 160, 4, LIGHTGRAY)
-  	    draw_circle_sector2([e * 10, 170], 4, 0, e * 4, 10, LIGHTGRAY)
-  	    draw_rectangle(e * 10 - 4, 180, 8, 8, LIGHTGRAY)
-	  end
-	  draw_text("FPS: #{get_fps}", 0, 0, font_size, LIGHTGRAY)
-	  draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
-	  draw_text("Mouse #{v.x}, #{v.y}", x, y +100, font_size, LIGHTGRAY)
+      (0..100).each do |e|
+        draw_pixel(e * 10, 100, LIGHTGRAY)
+        draw_line(e * 10, 110, e * 10 + 5, 110, LIGHTGRAY)
+        draw_line_bezier2([e * 10, 120], [e * 10 + 30, 150], 1, [200, 200, 200, 255])
+        draw_circle(e * 10, 160, 4, LIGHTGRAY)
+        draw_circle_sector2([e * 10, 170], 4, 0, e * 4, 10, LIGHTGRAY)
+        draw_rectangle(e * 10 - 4, 180, 8, 8, LIGHTGRAY)
+      end
+      draw_text("FPS: #{get_fps}", 0, 0, font_size, LIGHTGRAY)
+      draw_text("Congrats! You created your first window!\n(x: #{x}, y: #{y}, font_size: #{font_size})", x, y, font_size, LIGHTGRAY)
+      draw_text("Mouse #{v.x}, #{v.y}", x, y + 100, font_size, LIGHTGRAY)
 
-	  cx = (190 - x) * 0.05
-	  camera = Camera3D.init(
-		Vector3.init(cx, 30 - font_size, 30 - font_size), # position
-		Vector3.init(cx, 0, 0),   # target
-		Vector3.init(0, 1, 0),   # up
-		45,                      # fovy
-		0,                       # type(CAMERA_PERSPECTIVE)
-		)
+      cx = (190 - x) * 0.05
+      camera = Camera3D.init(
+        Vector3.init(cx, 30 - font_size, 30 - font_size), # position
+        Vector3.init(cx, 0, 0),   # target
+        Vector3.init(0, 1, 0),   # up
+        45,                      # fovy
+        0,                       # type(CAMERA_PERSPECTIVE)
+      )
 
-	  mode3d(camera) do
+      mode3d(camera) do
         pos = Vector3.new
-    	pos.x, pos.y, pos.z = 0, 0, 0
+        pos.x, pos.y, pos.z = 0, 0, 0
 
-    	draw_cube(pos, 2, 2, 2, RED)
+        draw_cube(pos, 2, 2, 2, RED)
 
-    	draw_cube_wires(pos, 2, 2, 2, MAROON)
+        draw_cube_wires(pos, 2, 2, 2, MAROON)
 
-    	pos.x, pos.y, pos.z = 4, 4, 4
-    	draw_cube_texture(texture, pos, 2, 2, 2, WHITE)
+        pos.x, pos.y, pos.z = 4, 4, 4
+        draw_cube_texture(texture, pos, 2, 2, 2, WHITE)
 
-    	draw_grid(10, 1)
-  	  end
+        draw_grid(10, 1)
+      end
 
-	  draw_text("Welcome to the third dimension!", 10, 40, 20, DARKGRAY)
-	  # draw_fps(10, 10)
-	end
+      draw_text("Welcome to the third dimension!", 10, 40, 20, DARKGRAY)
+      # draw_fps(10, 10)
+    end
   end
 
   unload_texture(texture)
