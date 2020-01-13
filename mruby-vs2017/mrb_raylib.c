@@ -4489,7 +4489,7 @@ mrb_func_raylib_get_image_data(mrb_state *mrb, mrb_value self)
 		mrb_ary_push(mrb, array, mrb_raylib_color_to_mrb(mrb, pixels[i]));
 	}
 
-	free(pixels);
+	RL_FREE(pixels);
 
 	return array;
 }

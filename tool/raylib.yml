@@ -506,7 +506,7 @@
         mrb_ary_push(mrb, array, mrb_raylib_color_to_mrb(mrb, pixels[i]));
     }
 
-    free(pixels);
+    RL_FREE(pixels);
 
     return array;
 # - name: Vector4 *GetImageDataNormalized(Image image);                                                       # Get pixel data from image as Vector4 array (float normalized)
