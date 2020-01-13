@@ -16,11 +16,10 @@ class Function
       @ret_type = parse_ret_type(ret_type)
       @arguments = parse_arguments(arguments)
     else
-      c_name, arguments = src.scan(/(\w+)\((.*)\)/)[0]
+      ruby_name, arguments = src.scan(/(\w+)\((.*)\)/)[0]
       argc = arguments.split(",").count
 
-      @c_name = c_name
-      @ruby_name = Caseninja.to_snake(c_name)
+      @ruby_name = ruby_name
      
       args = []
       0.upto(argc - 1) do
