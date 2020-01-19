@@ -1,8 +1,31 @@
-#include "mrb_raylib.h"
+﻿#include "mrb_raylib.h"
 
 #include "mruby.h"
 #include "mruby/compile.h"
 #include <string.h>
+#include <thread>
+#include <raylib.h>
+
+namespace {
+	long lastWriteTime = 0;
+	bool isReload = false;
+	bool isWatch = true;
+
+	void threadLoop()
+	{
+		while (true) {
+			auto writeTime = GetFileModTime("main.rb");
+
+			if (writeTime > lastWriteTime) {
+				lastWriteTime = writeTime;
+				isReload = true;
+				std::printf("Reload!!\n");
+			}
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		}
+	}
+}
 
 int main(int argc, char* argv[])
 {
@@ -10,6 +33,13 @@ int main(int argc, char* argv[])
 
 	if (argc > 1) {
 		fileName = argv[1];
+	}
+
+	if (isWatch) {
+		std::thread t([&] {
+			threadLoop();
+		});
+		t.detach();
 	}
 
 	mrb_state* mrb = mrb_open();
