@@ -1,4 +1,4 @@
-﻿#include "mrb_raylib.h"
+#include "mrb_raylib.h"
 
 #include "mruby.h"
 #include "mruby/compile.h"
@@ -16,15 +16,15 @@ int main(int argc, char* argv[])
 
 	mrb_raylib_module_init(mrb);
 
-	FILE* fp;
-	fopen_s(&fp, fileName, "r");
-	mrb_value ret = mrb_load_file(mrb, fp);
+	char* str = LoadText(fileName);
+
+	mrb_value ret = mrb_load_string(mrb, str);
 	
 	if (mrb->exc) {
 		mrb_p(mrb, mrb_obj_value(mrb->exc));
 	}
 
-	fclose(fp);
+	RL_FREE(str);
 
 	mrb_close(mrb);
 }
