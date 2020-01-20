@@ -8,7 +8,7 @@
 
 namespace {
 	long lastWriteTime = 0;
-	bool isReload = true;
+	bool isReload = false;
 	bool isWatch = true;
 
 	void threadLoop()
@@ -34,6 +34,7 @@ mrb_bool GetIsReload()
 int main(int argc, char* argv[])
 {
 	const char* fileName = "main.rb";
+	bool firstRun = true;
 
 	if (argc > 1) {
 		fileName = argv[1];
@@ -48,7 +49,8 @@ int main(int argc, char* argv[])
 		t.detach();
 	}
 
-	while (GetIsReload()) {
+	while (firstRun || GetIsReload()) {
+		firstRun = false;
 		isReload = false;
 
 		mrb_state* mrb = mrb_open();
