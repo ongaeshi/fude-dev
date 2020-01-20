@@ -2491,11 +2491,11 @@ mrb_func_raylib_init_window(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_func_raylib_window_should_close(mrb_state *mrb, mrb_value self)
 {
+	if (GetIsReload()) {
+		return mrb_bool_value(true);
+	}
 
-
-	mrb_value ret = mrb_bool_value(WindowShouldClose());
-
-	return ret;
+	return mrb_bool_value(WindowShouldClose());
 }
 
 static mrb_value

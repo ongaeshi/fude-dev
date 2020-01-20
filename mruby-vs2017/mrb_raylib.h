@@ -14,6 +14,7 @@ extern "C" {
 #endif
 
 MRB_RAYLIB_API void mrb_raylib_module_init(mrb_state *mrb);
+MRB_RAYLIB_API mrb_bool GetIsReload();
 
 #ifdef __cplusplus
 }

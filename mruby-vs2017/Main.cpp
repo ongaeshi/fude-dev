@@ -8,7 +8,7 @@
 
 namespace {
 	long lastWriteTime = 0;
-	bool isReload = false;
+	bool isReload = true;
 	bool isWatch = true;
 
 	void threadLoop()
@@ -19,12 +19,16 @@ namespace {
 			if (writeTime > lastWriteTime) {
 				lastWriteTime = writeTime;
 				isReload = true;
-				std::printf("Reload!!\n");
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	}
+}
+
+mrb_bool GetIsReload()
+{
+	return isReload;
 }
 
 int main(int argc, char* argv[])
@@ -36,26 +40,32 @@ int main(int argc, char* argv[])
 	}
 
 	if (isWatch) {
+		lastWriteTime = GetFileModTime(fileName);
+
 		std::thread t([&] {
 			threadLoop();
 		});
 		t.detach();
 	}
 
-	mrb_state* mrb = mrb_open();
+	while (GetIsReload()) {
+		isReload = false;
 
-	mrb_raylib_module_init(mrb);
+		mrb_state* mrb = mrb_open();
 
-	char* str = LoadText(fileName);
+		mrb_raylib_module_init(mrb);
 
-	mrb_value ret = mrb_load_string(mrb, str);
-	
-	if (mrb->exc) {
-		mrb_p(mrb, mrb_obj_value(mrb->exc));
+		char* str = LoadText(fileName);
+
+		mrb_value ret = mrb_load_string(mrb, str);
+
+		if (mrb->exc) {
+			mrb_p(mrb, mrb_obj_value(mrb->exc));
+		}
+
+		RL_FREE(str);
+
+		mrb_close(mrb);
 	}
-
-	RL_FREE(str);
-
-	mrb_close(mrb);
 }
 
