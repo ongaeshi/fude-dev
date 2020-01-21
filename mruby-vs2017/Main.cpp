@@ -8,18 +8,18 @@
 #include <raylib.h>
 
 namespace {
-	long lastWriteTime = 0;
-	bool isReload = false;
-	bool isWatch = true;
+	bool fIsWatch = false;
+	bool fIsReload = false;
+	long fLastWriteTime = 0;
 
 	void threadLoop()
 	{
 		while (true) {
 			auto writeTime = GetFileModTime("main.rb");
 
-			if (writeTime > lastWriteTime) {
-				lastWriteTime = writeTime;
-				isReload = true;
+			if (writeTime > fLastWriteTime) {
+				fLastWriteTime = writeTime;
+				fIsReload = true;
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -29,20 +29,26 @@ namespace {
 
 mrb_bool GetIsReload()
 {
-	return isReload;
+	return fIsReload;
+}
+
+mrb_bool GetIsWatch()
+{
+	return fIsWatch;
 }
 
 int main(int argc, char* argv[])
 {
+	bool firstRun = false;
 	const char* fileName = "main.rb";
-	bool firstRun = true;
 
 	if (argc > 1) {
 		fileName = argv[1];
+		fIsWatch = true;
 	}
 
-	if (isWatch) {
-		lastWriteTime = GetFileModTime(fileName);
+	if (GetIsWatch()) {
+		fLastWriteTime = GetFileModTime(fileName);
 
 		std::thread t([&] {
 			threadLoop();
@@ -50,9 +56,9 @@ int main(int argc, char* argv[])
 		t.detach();
 	}
 
-	while (firstRun || GetIsReload()) {
-		firstRun = false;
-		isReload = false;
+	while (GetIsReload() || !firstRun) {
+		firstRun = true;
+		fIsReload = false;
 
 		mrb_state* mrb = mrb_open();
 
@@ -72,8 +78,8 @@ int main(int argc, char* argv[])
 
 			while (!WindowShouldClose()) {
 				BeginDrawing();
-					ClearBackground(BLACK);
-					DrawText(exceptionStr, 0, 0, 12, WHITE);
+				ClearBackground(BLACK);
+				DrawText(exceptionStr, 0, 0, 12, WHITE);
 				EndDrawing();
 
 				if (GetIsReload()) {
