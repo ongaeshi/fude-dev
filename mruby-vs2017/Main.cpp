@@ -8,6 +8,7 @@
 #include <raylib.h>
 
 namespace {
+	const char* fFileName = "main.rb";
 	bool fIsWatch = false;
 	bool fIsReload = false;
 	long fLastWriteTime = 0;
@@ -15,7 +16,7 @@ namespace {
 	void threadLoop()
 	{
 		while (true) {
-			auto writeTime = GetFileModTime("main.rb");
+			auto writeTime = GetFileModTime(fFileName);
 
 			if (writeTime > fLastWriteTime) {
 				fLastWriteTime = writeTime;
@@ -40,15 +41,14 @@ mrb_bool GetIsWatch()
 int main(int argc, char* argv[])
 {
 	bool firstRun = false;
-	const char* fileName = "main.rb";
 
 	if (argc > 1) {
-		fileName = argv[1];
+		fFileName = argv[1];
 		fIsWatch = true;
 	}
 
 	if (GetIsWatch()) {
-		fLastWriteTime = GetFileModTime(fileName);
+		fLastWriteTime = GetFileModTime(fFileName);
 
 		std::thread t([&] {
 			threadLoop();
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
 		mrb_raylib_module_init(mrb);
 
-		char* str = LoadText(fileName);
+		char* str = LoadText(fFileName);
 
 		mrb_value ret = mrb_load_string(mrb, str);
 
