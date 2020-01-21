@@ -2,6 +2,7 @@
 
 #include "mruby.h"
 #include "mruby/compile.h"
+#include "mruby/string.h"
 #include <string.h>
 #include <thread>
 #include <raylib.h>
@@ -62,7 +63,23 @@ int main(int argc, char* argv[])
 		mrb_value ret = mrb_load_string(mrb, str);
 
 		if (mrb->exc) {
-			mrb_p(mrb, mrb_obj_value(mrb->exc));
+			mrb_value exception = mrb_obj_value(mrb->exc);
+
+			mrb_p(mrb, exception);
+
+			mrb_value msg = mrb_funcall(mrb, exception, "inspect", 0);
+			const char* exceptionStr = mrb_string_value_ptr(mrb, msg);
+
+			while (!WindowShouldClose()) {
+				BeginDrawing();
+					ClearBackground(BLACK);
+					DrawText(exceptionStr, 0, 0, 12, WHITE);
+				EndDrawing();
+
+				if (GetIsReload()) {
+					break;
+				}
+			}
 		}
 
 		RL_FREE(str);
