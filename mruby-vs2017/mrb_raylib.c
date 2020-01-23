@@ -2478,12 +2478,18 @@ mrb_raylib_vrdeviceinfo_initialize(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_func_raylib_init_window(mrb_state *mrb, mrb_value self)
 {
-	mrb_int width;
-	mrb_int height;
-	mrb_value title;
-	mrb_get_args(mrb, "iiS", &width, &height, &title);
+	static mrb_bool isInit = false;
 
-	InitWindow(width, height, RSTRING_PTR(title));
+	if (!isInit || !GetIsWatch()) {
+		isInit = true;
+
+		mrb_int width;
+		mrb_int height;
+		mrb_value title;
+		mrb_get_args(mrb, "iiS", &width, &height, &title);
+
+		InitWindow(width, height, RSTRING_PTR(title));
+	}
 
 	return self;
 }
@@ -2491,19 +2497,19 @@ mrb_func_raylib_init_window(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_func_raylib_window_should_close(mrb_state *mrb, mrb_value self)
 {
+	if (GetIsReload()) {
+		return mrb_bool_value(true);
+	}
 
-
-	mrb_value ret = mrb_bool_value(WindowShouldClose());
-
-	return ret;
+	return mrb_bool_value(WindowShouldClose());
 }
 
 static mrb_value
 mrb_func_raylib_close_window(mrb_state *mrb, mrb_value self)
 {
-
-
-	CloseWindow();
+	if (!GetIsReload()) {
+		CloseWindow();
+	}
 
 	return self;
 }
