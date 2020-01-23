@@ -181,9 +181,39 @@
 # module: core
 # ---------------------------------------------------------------------------
 # Window-related functions
-- name: void InitWindow(int width, int height, const char* title);              # Initialize window and OpenGL context
-- name: bool WindowShouldClose(void);                                           # Check if KEY_ESCAPE pressed or Close icon pressed
-- name: void CloseWindow(void);                                                 # Close window and unload OpenGL context
+#- name: void InitWindow(int width, int height, const char* title);              # Initialize window and OpenGL context
+- name: init_window(width, height, title)
+  content: |
+    static mrb_bool isInit = false;
+
+    if (!isInit || !GetIsWatch()) {
+        isInit = true;
+
+        mrb_int width;
+        mrb_int height;
+        mrb_value title;
+        mrb_get_args(mrb, "iiS", &width, &height, &title);
+
+        InitWindow(width, height, RSTRING_PTR(title));
+    }
+
+    return self;
+# - name: bool WindowShouldClose(void);                                           # Check if KEY_ESCAPE pressed or Close icon pressed
+- name: window_should_close()
+  content: |
+    if (GetIsReload()) {
+        return mrb_bool_value(true);
+    }
+
+    return mrb_bool_value(WindowShouldClose());
+# - name: void CloseWindow(void);                                                 # Close window and unload OpenGL context
+- name: close_window()
+  content: |
+    if (!GetIsReload()) {
+        CloseWindow();
+    }
+
+    return self;
 - name: bool IsWindowReady(void);                                               # Check if window has been initialized successfully
 - name: bool IsWindowMinimized(void);                                           # Check if window has been minimized (or lost focus)
 - name: bool IsWindowResized(void);                                             # Check if window has been resized
