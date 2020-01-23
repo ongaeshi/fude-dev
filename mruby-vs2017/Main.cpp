@@ -43,8 +43,15 @@ int main(int argc, char* argv[])
 	bool firstRun = false;
 
 	if (argc > 1) {
-		fFileName = argv[1];
+		const char* filePath = argv[1];
+
+		fFileName = GetFileName(filePath);
 		fIsWatch = true;
+
+		const char* dirPath = GetDirectoryPath(filePath);
+		if (dirPath != nullptr) {
+			ChangeDirectory(dirPath);
+		}
 	}
 
 	if (GetIsWatch()) {
