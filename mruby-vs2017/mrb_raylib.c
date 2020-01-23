@@ -2478,10 +2478,10 @@ mrb_raylib_vrdeviceinfo_initialize(mrb_state *mrb, mrb_value self)
 static mrb_value
 mrb_func_raylib_init_window(mrb_state *mrb, mrb_value self)
 {
-	static mrb_bool firstRun = true;
+	static mrb_bool isInit = false;
 
-	if (firstRun) {
-		firstRun = false;
+	if (!isInit || !GetIsWatch()) {
+		isInit = true;
 
 		mrb_int width;
 		mrb_int height;

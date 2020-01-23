@@ -15,6 +15,7 @@ extern "C" {
 
 MRB_RAYLIB_API void mrb_raylib_module_init(mrb_state *mrb);
 MRB_RAYLIB_API mrb_bool GetIsReload();
+MRB_RAYLIB_API mrb_bool GetIsWatch();
 
 #ifdef __cplusplus
 }
