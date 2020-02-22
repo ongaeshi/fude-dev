@@ -81,6 +81,19 @@ int main(int argc, char* argv[])
 
 		mrb_state* mrb = mrb_open();
 
+		// Set constants
+		{
+			struct RClass* klass = mrb_class_get(mrb, "Object");
+
+			mrb_value array = mrb_ary_new(mrb);
+			for (int i = 1; i < argc; i++) {
+				mrb_ary_push(mrb, array, mrb_str_new_cstr(mrb, argv[i]));
+			}
+			mrb_const_set(mrb, mrb_obj_value(klass), mrb_intern_cstr(mrb, "ARGV"), array);
+
+			mrb_const_set(mrb, mrb_obj_value(klass), mrb_intern_cstr(mrb, "FILE_NAME"), mrb_str_new_cstr(mrb, fFileName));
+		}
+
 		mrb_raylib_module_init(mrb);
 
 		char* str = LoadText(fFileName);
