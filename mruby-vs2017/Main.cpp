@@ -1,8 +1,10 @@
 ﻿#include "mrb_raylib.h"
 
 #include "mruby.h"
+#include "mruby/array.h"
 #include "mruby/compile.h"
 #include "mruby/string.h"
+#include "mruby/variable.h"
 #include <string.h>
 #include <thread>
 #include <raylib.h>
@@ -11,6 +13,7 @@ namespace {
 	const char* fFileName = "main.rb";
 	bool fIsWatch = false;
 	bool fIsReload = false;
+	bool fIsGif = false;
 	long fLastWriteTime = 0;
 
 	void threadLoop()
@@ -38,6 +41,11 @@ mrb_bool GetIsWatch()
 	return fIsWatch;
 }
 
+mrb_bool GetIsGif()
+{
+	return fIsGif;
+}
+
 int main(int argc, char* argv[])
 {
 	bool firstRun = false;
@@ -51,6 +59,10 @@ int main(int argc, char* argv[])
 		const char* dirPath = GetDirectoryPath(filePath);
 		if (dirPath != nullptr) {
 			ChangeDirectory(dirPath);
+		}
+
+		if (argc > 2 && std::string(argv[2]) == "--gif") {
+			fIsGif = true;
 		}
 	}
 

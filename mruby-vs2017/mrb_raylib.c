@@ -6993,6 +6993,12 @@ mrb_func_raylib_gif_end(mrb_state *mrb, mrb_value self)
 	return mrb_nil_value();
 }
 
+static mrb_value
+mrb_func_raylib_get_is_gif(mrb_state *mrb, mrb_value self)
+{
+	return mrb_bool_value(GetIsGif());
+}
+
 void mrb_raylib_module_init(mrb_state *mrb)
 {
 	struct RClass *mod_raylib = mrb_define_module(mrb, "Raylib");
@@ -7745,5 +7751,6 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "gif_begin", mrb_func_raylib_gif_begin, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "gif_write_frame", mrb_func_raylib_gif_write_frame, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "gif_end", mrb_func_raylib_gif_end, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "get_is_gif", mrb_func_raylib_get_is_gif, MRB_ARGS_NONE());
 
 }
