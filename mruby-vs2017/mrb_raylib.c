@@ -6964,7 +6964,10 @@ static gifFrame = 0;
 static mrb_value
 mrb_func_raylib_gif_begin(mrb_state *mrb, mrb_value self)
 {
-	GifBegin("screenrec001.gif", GetScreenWidth(), GetScreenHeight(), 16, 8, false);
+	mrb_value fileName;
+	mrb_get_args(mrb, "S", &fileName);
+
+	GifBegin(RSTRING_PTR(fileName), GetScreenWidth(), GetScreenHeight(), 16, 8, false);
 	gifFrame = 0;
 	return mrb_nil_value();
 }
@@ -6978,8 +6981,7 @@ mrb_func_raylib_gif_write_frame(mrb_state *mrb, mrb_value self)
 
 	if (gifFrame % 10 == 0) {
 		unsigned char *screenData = rlReadScreenPixels(GetScreenWidth(), GetScreenHeight());
-		// GifWriteFrame(screenData, GetScreenWidth(), GetScreenHeight(), (int)(GetFrameTime()*1000.0f), 8, false);
-		GifWriteFrame(screenData, GetScreenWidth(), GetScreenHeight(), 16, 8, false);
+		GifWriteFrame(screenData, GetScreenWidth(), GetScreenHeight(), 16/*(int)(GetFrameTime()*1000.0f)*/, 8, false);
 		RL_FREE(screenData);
 	}
 
@@ -7748,7 +7750,7 @@ void mrb_raylib_module_init(mrb_state *mrb)
 	mrb_define_module_function(mrb, mod_raylib, "stop_audio_stream", mrb_func_raylib_stop_audio_stream, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "set_audio_stream_volume", mrb_func_raylib_set_audio_stream_volume, MRB_ARGS_REQ(2));
 	mrb_define_module_function(mrb, mod_raylib, "set_audio_stream_pitch", mrb_func_raylib_set_audio_stream_pitch, MRB_ARGS_REQ(2));
-	mrb_define_module_function(mrb, mod_raylib, "gif_begin", mrb_func_raylib_gif_begin, MRB_ARGS_NONE());
+	mrb_define_module_function(mrb, mod_raylib, "gif_begin", mrb_func_raylib_gif_begin, MRB_ARGS_REQ(1));
 	mrb_define_module_function(mrb, mod_raylib, "gif_write_frame", mrb_func_raylib_gif_write_frame, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "gif_end", mrb_func_raylib_gif_end, MRB_ARGS_NONE());
 	mrb_define_module_function(mrb, mod_raylib, "get_is_gif", mrb_func_raylib_get_is_gif, MRB_ARGS_NONE());
